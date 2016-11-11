@@ -22,6 +22,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var settings = require('./config/settings.js');
+var dbConnString = `${settings.db.protocol}://${settings.db.user}:${settings.db.password}@${settings.db.host}/${settings.db.database}`;
+var orm = require('orm');
+
+app.use(orm.express(dbConnString, {
+  define: function(db, models, next) {
+    models.user = require('./models/user')(orm, db);
+    next();
+  }
+}));
+
 // Register routes
 app.use('/', rIndex);
 app.use('/users', rUers);
