@@ -22,12 +22,20 @@ app.use(logger('dev'));
 app.use(bodyParser.json({strict: false}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+if (process.env.NODE_ENV !== 'production') {
+  console.log('DEVOLOPMENT ENVIRONMENT: Turning on WebPack Middleware...');
+  require('./config/dev').useWebpackMiddleware(app);
+}
+else {
+  console.log('PRODUCTION ENVIRONMENT');
+  app.use(express.static(path.join(__dirname, 'public')));
+}
 
 // Set global variables
 app.locals.env = app.get('env');
 
-var settings = require('./config/settings.js');
+/*var settings = require('./config/settings.js');
 var dbConnString = `${settings.db.protocol}://${settings.db.user}:${settings.db.password}@${settings.db.host}/${settings.db.database}`;
 var orm = require('orm');
 
@@ -36,7 +44,7 @@ app.use(orm.express(dbConnString, {
     models.user = require('./models/user')(orm, db);
     next();
   }
-}));
+}));*/
 
 // Register routes
 app.use('/', rIndex);
