@@ -6,9 +6,9 @@ module.exports = {
   apps : [
     {
       "name": "ikapp-dev"
-      , "script": "./bin/www"
-      , "ignore_watch" : ["node_modules", "client", "public"]
-      , "watch": ["config", "core", "models", "routes", "views", "app.js"]
+      , "script": "./server/bin/www"
+      , "watch": true
+      , "ignore_watch" : ["node_modules", "client", "server/public"]
       , "watch_options": {
           "followSymlinks": false
         }
@@ -18,7 +18,7 @@ module.exports = {
     },
     {
       "name": "ikapp"
-      , "script": "./bin/www"
+      , "script": "./server/bin/www"
       , "exec_mode": "cluster"
       , "instances": 4
       , "env": {

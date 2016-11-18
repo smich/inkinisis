@@ -3,7 +3,7 @@ var path = require('path')
   ;
 
 var APP_DIR = path.resolve(__dirname, 'client')
-  , BUILD_DIR = path.resolve(__dirname, 'public')
+  , BUILD_DIR = path.resolve(__dirname, 'server', 'public')
   , ENTRY_FILE = 'main.jsx'
   , config;
 

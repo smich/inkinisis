@@ -1,5 +1,5 @@
 # Static assets
-public/*
+server/public/*
 
 # Logs
 logs
