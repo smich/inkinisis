@@ -1,5 +1,0 @@
-apps:
-  - script   : 'bin/www'
-    name     : 'ikapp'
-    exec_mode: 'cluster'
-    instances: 4

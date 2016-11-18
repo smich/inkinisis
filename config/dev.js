@@ -1,19 +1,29 @@
-var webpack = require('webpack'),
-  webpackDevMiddleware = require('webpack-dev-middleware'),
-  webpackHotMiddleware = require('webpack-hot-middleware'),
-  webpackconfig = require('./../webpack.config.js'),
+var webpack = require('webpack')
+  , webpackDevMiddleware = require('webpack-dev-middleware')
+  , webpackHotMiddleware = require('webpack-hot-middleware')
+  , webpackconfig = require('./../webpack.config.js')
+  , webpackcompiler
+  ;
+
+/**
+ * Enable webpack middleware for hot-reloads in development
+ */
+function useWebpackMiddleware(app) {
+  // Step 1: Create & configure a webpack compiler
   webpackcompiler = webpack(webpackconfig);
 
-//enable webpack middleware for hot-reloads in development
-function useWebpackMiddleware(app) {
+  // Step 2: Attach the dev middleware to the compiler & the server
   app.use(webpackDevMiddleware(webpackcompiler, {
     publicPath: webpackconfig.output.publicPath,
     stats: {
-      colors: true,
-      chunks: false, // this reduces the amount of stuff I see in my terminal; configure to your needs
-      'errors-only': true
+      colors: true
+      // Reduce the amount of output in the terminal
+      , chunks: false
+      , 'errors-only': true
     }
   }));
+
+  // Step 3: Attach the hot middleware to the compiler & the server
   app.use(webpackHotMiddleware(webpackcompiler, {
     log: console.log
     , path: '/__webpack_hmr'

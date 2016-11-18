@@ -1,13 +1,5 @@
-var path = require('path')
-  ;
-var // Core modules
-  hbs = require('hbs')
-  , hbsutils = require('hbs-utils')(hbs)
-  , path = require('path')
-  ;
+'use strict';
 
-var VIEWS_PATH = __dirname + '/../views';
-var VIEWS_PARTIAL_PATH = VIEWS_PATH + '/../views/';
 
 /**
  * Configure views and view engine using handlebars
@@ -15,6 +7,15 @@ var VIEWS_PARTIAL_PATH = VIEWS_PATH + '/../views/';
  * @param app
  */
 function setupViews(app) {
+
+  var // Core modules
+    hbs = require('hbs')
+    , hbsutils = require('hbs-utils')(hbs)
+    , path = require('path')
+    ;
+
+  var VIEWS_PATH = __dirname + '/../views';
+  var VIEWS_PARTIAL_PATH = VIEWS_PATH + '/../views/';
 
   // Register and watch partials
   var partials = [
