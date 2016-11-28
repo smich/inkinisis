@@ -13,7 +13,6 @@ var app = express();
 // Setup view engine
 require('./core/views')(app);
 
-
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json({strict: false}));
@@ -21,7 +20,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 if (process.env.NODE_ENV !== 'production') {
-  console.log('DEVOLOPMENT ENVIRONMENT: Turning on WebPack Middleware...');
+  console.log('DEVOLOPMENT ENVIRONMENT ::: Turning on WebPack Middleware...');
   require('./config/dev').useWebpackMiddleware(app);
 }
 else {

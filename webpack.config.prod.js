@@ -9,7 +9,8 @@
  * @type {ExtractTextPlugin}
  */
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
+  , webpack = require('webpack');
 
 
 var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
@@ -38,11 +39,19 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
 
     }
     , plugins: [
-        // Extract compiled SASS code to a separate file
-        new ExtractTextPlugin('/main.css', {
-          allChunks: true
-        })
-      ]
+
+      // Extract compiled SASS code to a separate file
+      new ExtractTextPlugin('/main.css', {
+        allChunks: true
+      })
+      // Use a production ready minified React code
+      , new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify('production')
+        }
+      })
+      , new webpack.optimize.UglifyJsPlugin()
+    ]
   };
 };
 

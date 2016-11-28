@@ -13,23 +13,21 @@ var webpack = require('webpack');
 
 var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
   return {
-    // entry: [APP_DIR, ENTRY_FILE].join('/')
     entry: [
       'webpack/hot/dev-server'
       , 'webpack-hot-middleware/client'
       , [APP_DIR, ENTRY_FILE].join('/')
     ]
     , output: {
-        // path: BUILD_DIR
-        path: '/'
+      // "path" is now "/" because we're building our app into memory now rather than a build folder
+      path: '/'
         , filename: '[name].js'
-        // , publicPath: 'http://localhost:3000/'
         , publicPath: 'http://inkinisis.dev/'
       }
     , plugins: [
       // Webpack 1.0
       new webpack.optimize.OccurenceOrderPlugin(),
-      // Webpack 2.0 fixed this mispelling
+      // Webpack 2.0 fixed this misspelling
       // new webpack.optimize.OccurrenceOrderPlugin(),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin()
@@ -39,14 +37,12 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
           {
             test: /.jsx?$/
             , exclude: /node_modules/
-            // , loader: 'babel-loader'
-            // , query: {
-            //     presets: ['es2015', 'react']
-            //   }
             , loaders: [
-                  'react-hot'
-                  , 'babel?presets[]=react,presets[]=es2015'
-              ]
+              // ORDER MATTERS; "react-hot" needs to be on the left, because webpack processes the loaders from right-to-left
+              'react-hot'
+              // webpack forbids the "loader.query" property when you have multiple loaders; use a queryString to pass those details
+              , 'babel?presets[]=react,presets[]=es2015'
+            ]
           }
           , {
             test: /\.scss$/
