@@ -1,6 +1,9 @@
 # Static assets
 server/public/*
 
+#OS specific files
+.DS_Store
+
 # Logs
 logs
 *.log

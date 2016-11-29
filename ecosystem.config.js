@@ -1,3 +1,18 @@
+var watchIgnoreList = [
+  "client"
+  , "ecosystem.config.js"
+  , "package.json"
+  , "webpack.config.js"
+  , "webpack.config.dev.js"
+  , "webpack.config.prod.js"
+  , "node_modules"
+  , "server/public"
+  , "LICENSE"
+  , "README.md"
+  , ".git"
+  , ".gitignore"
+];
+
 module.exports = {
   /**
    * Application configuration section
@@ -13,11 +28,7 @@ module.exports = {
       "name": "ikapp-dev"
       , "script": "./server/bin/www"
       , "watch": true
-      , "ignore_watch" : [
-        "client"
-        , "node_modules"
-        , "server/public"
-      ]
+      , "ignore_watch" : watchIgnoreList
       , "watch_options": {
         "followSymlinks": false
       }
