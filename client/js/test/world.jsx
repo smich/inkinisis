@@ -8,4 +8,6 @@ class World extends React.Component {
   }
 }
 
-ReactDom.render(<World/>, document.getElementById('world'));
+if (document.getElementById('world')) {
+  ReactDom.render(<World/>, document.getElementById('world'));
+}

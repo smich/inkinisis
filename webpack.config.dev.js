@@ -18,6 +18,7 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
       , 'webpack-hot-middleware/client'
       , [APP_DIR, ENTRY_FILE].join('/')
     ]
+    , devtool: 'source-map'
     , output: {
       // "path" is now "/" because we're building our app into memory now rather than a build folder
       path: '/'
