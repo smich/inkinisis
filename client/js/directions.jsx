@@ -3,17 +3,31 @@ import ReactDom from 'react-dom';
 
 const API_KEY = "AIzaSyDWX70SmFG_dc15_K-MbMRAAlurTOjEt3w";
 
+const ATHENS_LAT = 37.9838096;
+const ATHENS_LNG = 23.727538800000048;
+
 class Directions extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      route: {
+        distance: 0
+        , duration: 0
+      }
+    };
+
     this.pickup = {
       coordinates: {}
+      , markers: []
     };
     this.destination = {
       coordinates: {}
+      , markers: []
     };
 
+    this.addMarkers = this.addMarkers.bind(this);
+    this.drawDirections = this.drawDirections.bind(this);
     this.initDirections = this.initDirections.bind(this);
     this.initPickupControl = this.initPickupControl.bind(this);
     this.initDestinationControl = this.initDestinationControl.bind(this);
@@ -23,141 +37,179 @@ class Directions extends React.Component {
     this.initDirections();
   }
 
+  addMarkers(locControl, locData) {
+    var places = locControl.getPlaces();
+    if (places.length == 0) {
+      return;
+    }
+
+    // Clear out the old markers
+    locData = this.clearLocationMarkers(locData);
+
+    // For each place, get the icon, name and location
+
+    // LatLngBounds represents a rectangle in geographical coordinates, including one that crosses the 180
+    // degrees longitudinal meridian
+    var bounds = new google.maps.LatLngBounds();
+
+    places.forEach(place => {
+      if (!place.geometry) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
+      var icon = {
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25)
+      };
+
+      // Create a marker for each place.
+      locData.markers.push(new google.maps.Marker({
+        map: this.map,
+        icon: icon,
+        title: place.name,
+        position: place.geometry.location
+      }));
+      // Only geocodes have viewport.
+      if (place.geometry.viewport) {
+        bounds.union(place.geometry.viewport);
+      }
+      else {
+        bounds.extend(place.geometry.location);
+      }
+
+      // Save coordinates
+      locData.coordinates.lat = place.geometry.location.lat();
+      locData.coordinates.lng = place.geometry.location.lng();
+    });
+
+    // Set the viewport to contain the given bounds
+    this.map.fitBounds(bounds);
+
+    return locData;
+  }
+
+  drawDirections() {
+    // Make sure a pickup location is set
+    if (!this.pickupInput.value) {
+      this.destinationInput.value = "";
+      alert('Please choose a pickup location');
+      return;
+    }
+    var places = this.destinationControl.getPlaces();
+    if (!places || places.length == 0) {
+      console.log('no destination selected');
+      return;
+    }
+
+    this.directionsService.route({
+      origin: this.pickupInput.value.trim(),
+      destination: places[0].formatted_address,
+      travelMode: 'DRIVING'
+    }, (response, status) => {
+      if (status === 'OK') {
+        this.directionsDisplay.setDirections(response);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+
+    // Save coordinates
+    this.destination.coordinates.lat = places[0].geometry.location.lat();
+    this.destination.coordinates.lng = places[0].geometry.location.lng();
+
+    var service = this.distanceMatrix;
+    service.getDistanceMatrix({
+      origins: [this.pickup.coordinates],
+      destinations: [this.destination.coordinates],
+      travelMode: 'DRIVING',
+      unitSystem: google.maps.UnitSystem.METRIC,
+      avoidHighways: false,
+      avoidTolls: false,
+      drivingOptions: {
+        departureTime: new Date(Date.now() + 10000),
+        trafficModel: 'optimistic'
+      }
+
+    }, (response, status) => {
+      if (status !== 'OK') {
+        alert('Error was: ' + status);
+      } else {
+        // Update route destination and duration estimations
+        this.updateDistanceEstimations(response);
+
+        // Remove all location markers
+        this.clearMarkers();
+      }
+    });
+  }
+
   initPickupControl() {
-    var markers = [];
+    this.pickupInput.addEventListener('change', (evt) => {
+      var pickupLoc = evt.target.value;
+      if (!pickupLoc || (pickupLoc && pickupLoc.trim() === "")) {
+        // Clear directions
+        this.clearDirections();
+        // Remove pickup markers
+        this.pickup = this.clearLocationMarkers(this.pickup);
+        // Add direction markers
+        this.destination = this.addMarkers(this.destinationControl, this.destination);
+      }
+    });
 
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
     this.pickupControl.addListener('places_changed', () => {
-      var places = this.pickupControl.getPlaces();
-      if (places.length == 0) {
-        return;
+      // Add a marker for the pickup location
+      this.pickup = this.addMarkers(this.pickupControl, this.pickup);
+
+      if (this.isLocationSet(this.destination)) {
+        this.drawDirections();
       }
-
-      // Clear out the old markers
-      markers.forEach(function(marker) {
-        marker.setMap(null);
-      });
-      markers = [];
-
-      // For each place, get the icon, name and location
-
-      // LatLngBounds represents a rectangle in geographical coordinates, including one that crosses the 180
-      // degrees longitudinal meridian
-      var bounds = new google.maps.LatLngBounds();
-      console.log('da places');
-      console.log(places);
-
-      // place.address_components
-      // 5.types[0]['locality']: 5.long_name, e.g Kalivia
-      // 2.types[0]['administrative_area_level_5']: 2.long_name e.g Kropia
-      // 2.types[0]['administrative_area_level_4']: 2.long_name <- e.g Koropi
-      // 3.types[0]['administrative_area_level_3']: 3.long_name <- e.g Anatoliki Attiki
-      // 3.types[0]['administrative_area_level_2']: 3.long_name <- e.g Attica
-      // 3.types[0]['administrative_area_level_1']: 3.long_name <- e.g Attica
-      // 4.types[0]['country']: 5.long_name, 4.short_name, e.g Greece, GR
-      // 5.types[0]['postal_code']: 5.long_name, 113 45
-
-      places.forEach(place => {
-        if (!place.geometry) {
-          console.log("Returned place contains no geometry");
-          return;
-        }
-        var icon = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25)
-        };
-
-        // Create a marker for each place.
-        markers.push(new google.maps.Marker({
-          map: this.map,
-          icon: icon,
-          title: place.name,
-          position: place.geometry.location
-        }));
-        // Only geocodes have viewport.
-        if (place.geometry.viewport) {
-          bounds.union(place.geometry.viewport);
-        }
-        else {
-          bounds.extend(place.geometry.location);
-        }
-
-        // Save coordinates
-        this.pickup.coordinates.lat = place.geometry.location.lat();
-        this.pickup.coordinates.lng = place.geometry.location.lng();
-      });
-
-      // Set the viewport to contain the given bounds
-      this.map.fitBounds(bounds);
-
     });
   }
 
   initDestinationControl() {
-
     this.directionsDisplay.setMap(this.map);
 
-    this.destinationControl.addListener('places_changed', () => {
-      var places = this.destinationControl.getPlaces();
-
-      console.log('destination places');
-      console.log(places);
-      if (places.length == 0) {
-        console.log('no destination selected')
-        return;
+    this.destinationInput.addEventListener('change', (evt) => {
+      var destinationLoc = evt.target.value;
+      if (!destinationLoc || (destinationLoc && destinationLoc.trim() === "")) {
+        // Clear directions
+        this.clearDirections();
+        // Remove destination markers
+        this.destination = this.clearLocationMarkers(this.destination);
+        // Add pickup markers
+        this.pickup = this.addMarkers(this.pickupControl, this.pickup);
       }
+    });
 
-      this.directionsService.route({
-          origin: this.pickupInput.value.trim(),
-          destination: places[0].formatted_address,
-          travelMode: 'DRIVING'
-        }, (response, status) => {
-          if (status === 'OK') {
-            this.directionsDisplay.setDirections(response);
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
-        });
-
-      // Save coordinates
-      this.destination.coordinates.lat = places[0].geometry.location.lat();
-      this.destination.coordinates.lng = places[0].geometry.location.lng();
-
-      var service = this.distanceMatrix;
-      service.getDistanceMatrix({
-        origins: [this.pickup.coordinates],
-        destinations: [this.destination.coordinates],
-        travelMode: 'DRIVING',
-        unitSystem: google.maps.UnitSystem.METRIC,
-        avoidHighways: false,
-        avoidTolls: false,
-        drivingOptions: {
-          departureTime: new Date(Date.now() + 10000),
-          trafficModel: 'optimistic'
-        }
-
-      }, function(response, status) {
-        if (status !== 'OK') {
-          alert('Error was: ' + status);
-        } else {
-          var originList = response.originAddresses
-            , destinationList = response.destinationAddresses;
-
-          console.log('distance ::: ');
-          console.log(response);
-        }
-      });
+    this.destinationControl.addListener('places_changed', () => {
+      // Draw directions
+      this.drawDirections();
     });
   }
 
-  initDirections() {
-    const ATHENS_LAT = 37.9838096;
-    const ATHENS_LNG = 23.727538800000048;
+  setPlace(locationInput, locationControl) {
+    var request;
+    if(locationInput.value) {
+      request = {
+        query: locationInput.value
+      };
+      if (locationControl.getBounds()) {
+        request.bounds = locationControl.getBounds();
+      }
+      this.placesService.textSearch(request, places => {
+        //set the places-property of the SearchBox
+        //places_changed will be triggered automatically
+        locationControl.set('places', places || []);
+      });
+    }
+  }
 
+  initDirections() {
     // Initialize the mapMinoos 10, Ilion
     var map = new google.maps.Map(this.mapEl, {
       center: {
@@ -173,44 +225,17 @@ class Directions extends React.Component {
     this.directionsService = new google.maps.DirectionsService;
     this.directionsDisplay = new google.maps.DirectionsRenderer;
     this.distanceMatrix = new google.maps.DistanceMatrixService;
+    this.placesService = new google.maps.places.PlacesService(map);
 
     // Create the search box and link it to the UI element.
     this.pickupControl = new google.maps.places.SearchBox(this.pickupInput);
     this.destinationControl = new google.maps.places.SearchBox(this.destinationInput);
 
+    // Set pickup and destination to draw the route
     this.pickupInput.value = "Minoos 10, Ilion Greece";
     this.destinationInput.value = "Athens International Airport, Attiki Odos, Spata-Artemida, Greece";
-
-    var placesService = new google.maps.places.PlacesService(map);
-    var request;
-    if(this.pickupInput.value) {
-      request = {
-        query: this.pickupInput.value
-      }
-      if (this.pickupControl.getBounds()) {
-        request.bounds = this.pickupControl.getBounds();
-      }
-      placesService.textSearch(request, places => {
-        //set the places-property of the SearchBox
-        //places_changed will be triggered automatically
-        this.pickupControl.set('places', places || []);
-      });
-    }
-
-    var destRequest;
-    if(this.destinationInput.value) {
-      destRequest = {
-        query: this.destinationInput.value
-      }
-      if (this.destinationControl.getBounds()) {
-        destRequest.bounds = this.destinationControl.getBounds();
-      }
-      placesService.textSearch(destRequest, places => {
-        //set the places-property of the SearchBox
-        //places_changed will be triggered automatically
-        this.destinationControl.set('places', places || []);
-      });
-    }
+    this.setPlace(this.pickupInput, this.pickupControl);
+    this.setPlace(this.destinationInput, this.destinationControl);
 
     // Add the form on the map
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(this.form);
@@ -228,17 +253,106 @@ class Directions extends React.Component {
     this.initDestinationControl();
   }
 
+  showEstimations() {
+    return this.state.route.duration || this.state.route.distance;
+  }
+
+  updateDistanceEstimations(estimations) {
+    var state;
+    if (estimations && estimations.rows && estimations.rows.length
+      && estimations.rows[0].elements && estimations.rows[0].elements.length
+    ) {
+      var estimation = estimations.rows[0].elements[0];
+      state = {
+        route: {
+          distance: estimation.distance.text
+          , duration: estimation.duration.text
+        }
+      };
+    }
+    else {
+      state = {
+        route: {
+          distance: 0
+          , duration: 0
+        }
+      };
+    }
+    this.setState(state);
+  }
+
+  clearLocationMarkers(locData) {
+    if (locData.markers && locData.markers.length) {
+      locData.markers.forEach(marker => {
+        marker.setMap(null);
+      });
+    }
+    locData.markers = [];
+    locData.coordinates = {};
+
+    return locData;
+  }
+
+  clearMarkers() {
+    this.pickup = this.clearLocationMarkers(this.pickup);
+    this.destination = this.clearLocationMarkers(this.destination);
+  }
+
+  clearDirections() {
+    this.directionsDisplay.set('directions', null);
+  }
+
+  centerMap() {
+    this.map.setCenter({
+      lat: ATHENS_LAT
+      , lng: ATHENS_LNG
+    });
+    this.map.setZoom(11);
+  }
+
+  clearMap() {
+    this.pickupInput.value = "";
+    this.destinationInput.value = "";
+    this.setState({
+      route: {
+        distance: 0
+        , duration: 0
+      }
+    });
+    this.clearDirections();
+    this.clearMarkers();
+    this.centerMap();
+  }
+
+  isLocationSet(locData) {
+    return locData && locData.coordinates && locData.coordinates.lat && locData.coordinates.lng;
+  }
+
+  onClearPickupLocation() {
+    // Clear the direction
+    this.clearDirections();
+    // Remove the pickup location markers, if any
+    this.pickup = this.clearLocationMarkers(this.pickup);
+    // Add a destination marker
+  }
+
   render() {
+    var estimationsStyle = {display: "none"};
+    if (this.showEstimations()) {
+      estimationsStyle.display = "block";
+    }
+
     return (
       <div>
         <div className="form" ref={elem => {this.form = elem;}}>
           <div className="form__controls">
             <input ref={input => {this.pickupInput = input}} className="controls" type="text" placeholder="Choose pickup location" />
             <input ref={input => {this.destinationInput = input}} className="controls" type="text" placeholder="Choose your destination" />
+            <a href="#" onClick={this.clearMap.bind(this)}>Clear</a>
           </div>
-          <div className="form__estimation">
-            Duration: {} <br/>
-            Distance: {}
+          <div className="form__estimation" style={estimationsStyle}>
+            Duration: {this.state.route.duration} <br/>
+            Distance: {this.state.route.distance}
           </div>
         </div>
         <div id="map" ref={elem => {this.mapEl = elem}}></div>
