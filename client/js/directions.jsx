@@ -141,7 +141,7 @@ class Directions extends React.Component {
         this.updateDistanceEstimations(response);
 
         // Remove all location markers
-        this.clearMarkers();
+        this.clearMarkers(true);
       }
     });
   }
@@ -194,6 +194,8 @@ class Directions extends React.Component {
 
   setPlace(locationInput, locationControl) {
     var request;
+    console.log('in set place');
+    console.log(locationInput.value);
     if(locationInput.value) {
       request = {
         query: locationInput.value
@@ -210,7 +212,7 @@ class Directions extends React.Component {
   }
 
   initDirections() {
-    // Initialize the mapMinoos 10, Ilion
+    // Initialize the map
     var map = new google.maps.Map(this.mapEl, {
       center: {
         lat: ATHENS_LAT, lng: ATHENS_LNG
@@ -281,21 +283,24 @@ class Directions extends React.Component {
     this.setState(state);
   }
 
-  clearLocationMarkers(locData) {
+  clearLocationMarkers(locData, keepCoordinates=false) {
     if (locData.markers && locData.markers.length) {
       locData.markers.forEach(marker => {
         marker.setMap(null);
       });
     }
     locData.markers = [];
-    locData.coordinates = {};
+
+    if (!keepCoordinates) {
+      locData.coordinates = {};
+    }
 
     return locData;
   }
 
-  clearMarkers() {
-    this.pickup = this.clearLocationMarkers(this.pickup);
-    this.destination = this.clearLocationMarkers(this.destination);
+  clearMarkers(keepCoordinates=false) {
+    this.pickup = this.clearLocationMarkers(this.pickup, keepCoordinates);
+    this.destination = this.clearLocationMarkers(this.destination, keepCoordinates);
   }
 
   clearDirections() {
