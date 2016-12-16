@@ -194,8 +194,6 @@ class Directions extends React.Component {
 
   setPlace(locationInput, locationControl) {
     var request;
-    console.log('in set place');
-    console.log(locationInput.value);
     if(locationInput.value) {
       request = {
         query: locationInput.value
@@ -333,13 +331,13 @@ class Directions extends React.Component {
     return locData && locData.coordinates && locData.coordinates.lat && locData.coordinates.lng;
   }
 
-  onClearPickupLocation() {
-    // Clear the direction
-    this.clearDirections();
-    // Remove the pickup location markers, if any
-    this.pickup = this.clearLocationMarkers(this.pickup);
-    // Add a destination marker
-  }
+  // onClearPickupLocation() {
+  //   // Clear the direction
+  //   this.clearDirections();
+  //   // Remove the pickup location markers, if any
+  //   this.pickup = this.clearLocationMarkers(this.pickup);
+  //   // Add a destination marker
+  // }
 
   render() {
     var estimationsStyle = {display: "none"};
@@ -351,7 +349,10 @@ class Directions extends React.Component {
       <div>
         <div className="form" ref={elem => {this.form = elem;}}>
           <div className="form__controls">
-            <input ref={input => {this.pickupInput = input}} className="controls" type="text" placeholder="Choose pickup location" />
+            <input ref={input => {this.pickupInput = input}} className="controls" type="text" placeholder="Choose pickup location"
+                   onChange={(evt) => {
+                     console.log('on change bith:', evt.target.value);
+                   }} />
             <input ref={input => {this.destinationInput = input}} className="controls" type="text" placeholder="Choose your destination" />
             <a href="#" onClick={this.clearMap.bind(this)}>Clear</a>
           </div>
