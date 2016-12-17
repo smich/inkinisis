@@ -1,17 +1,16 @@
 'use strict';
 
-var express = require('express')
-  , path = require('path')
-  , favicon = require('serve-favicon')
-  , logger = require('morgan')
-  , cookieParser = require('cookie-parser')
-  , bodyParser = require('body-parser')
-  ;
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
-var app = express();
+const app = express();
 
-// Setup view engine
-require('./core/views')(app);
+// Setup view engine and register the views dir of all micro-apps
+require('./config/setupViews')(app);
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -36,13 +35,13 @@ var orm = require('orm');
 
 app.use(orm.express(dbConnString, {
   define: function(db, models, next) {
-    models.user = require('./models/user')(orm, db);
+    models.user = require('./accounts/models/user')(orm, db);
     next();
   }
 }));*/
 
-// Setup routes
-require('./core/routes')(app);
+// Register routes of all micro apps
+require('./config/registerRoutes')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

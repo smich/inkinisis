@@ -3,8 +3,9 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/book', function(req, res, next) {
-  res.render('trips_book');
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
 });
 
 module.exports = router;
