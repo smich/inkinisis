@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
     }
     resolve(instance);
   });});
-  
+
   promise.then((users) => {
     res.send(`respond with a resource: ${users[0].fullName()}`);
   }).catch((err) => {

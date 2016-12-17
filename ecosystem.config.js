@@ -6,7 +6,7 @@ var watchIgnoreList = [
   , "webpack.config.dev.js"
   , "webpack.config.prod.js"
   , "node_modules"
-  , "server/public"
+  , "public"
   , "LICENSE"
   , "README.md"
   , ".git"
@@ -26,7 +26,7 @@ module.exports = {
     //   modified
     {
       "name": "ikapp-dev"
-      , "script": "./server/bin/www"
+      , "script": "./bin/www"
       , "watch": true
       , "ignore_watch" : watchIgnoreList
       , "watch_options": {
@@ -38,7 +38,7 @@ module.exports = {
     }
     , {
       "name": "ikapp"
-      , "script": "./server/bin/www"
+      , "script": "./bin/www"
       , "exec_mode": "cluster"
       , "instances": 4
       , "env": {
