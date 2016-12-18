@@ -8,7 +8,7 @@ var webpack = require('webpack')
 /**
  * Enable webpack middleware for hot-reloads in development
  */
-function useWebpackMiddleware(app) {
+function enableWHM(app) {
   // Step 1: Create & configure a webpack compiler
   webpackcompiler = webpack(webpackconfig);
 
@@ -33,6 +33,4 @@ function useWebpackMiddleware(app) {
   return app;
 }
 
-module.exports = {
-  useWebpackMiddleware: useWebpackMiddleware
-};
+module.exports = enableWHM;

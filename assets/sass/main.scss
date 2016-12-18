@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+$font-stack:    Helvetica, sans-serif;
+$primary-color: green;
+
+
+// 0. Import default bootstrap source
+@import 'vendor-extensions/bootstrap';
+
+// 1. Configuration and helpers
+@import
+  'abstracts/variables',
+  'abstracts/functions',
+  'abstracts/mixins';
+
+// 2. Vendors
+
+// 3. Base stuff
+@import
+  'base/base',
+  'base/fonts',
+  'base/typography',
+  'base/helpers';
+
+// 4. Layout-related sections
+@import
+  'layout/header',
+  'layout/footer';
+
+// 5. Components
+@import
+  'components/button';
+
+// 6. App-specific styles
+@import
+  '/../../trips/assets/sass/trips';
+
+// 7. Themes
+@import
+  'themes/default';

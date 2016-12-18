@@ -1,5 +1,5 @@
 var watchIgnoreList = [
-  "client"
+  "assets"
   , "ecosystem.config.js"
   , "package.json"
   , "webpack.config.js"
@@ -21,7 +21,7 @@ module.exports = {
   apps : [
     // The development environment:
     // - The HRM is activated to hot reload modified react components on the fly
-    //   when any js file inside client/ is modified
+    //   when any js file inside assets/ is modified
     // - pm2 reloads any active node processes when server related js code is
     //   modified
     {

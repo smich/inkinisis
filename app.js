@@ -18,12 +18,12 @@ app.use(bodyParser.json({strict: false}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-if (process.env.NODE_ENV !== 'production') {
-  console.log('DEVOLOPMENT ENVIRONMENT ::: Turning on WebPack Middleware...');
-  require('./config/dev').useWebpackMiddleware(app);
+if (process.env.NODE_ENV == 'production') {
+  app.use(express.static(path.join(__dirname, 'public')));
 }
 else {
-  app.use(express.static(path.join(__dirname, 'public')));
+  console.log('DEVOLOPMENT ENVIRONMENT ::: Turning on WebPack Middleware...');
+  require('./config/enableWHM')(app);
 }
 
 // Set global variables

@@ -50,6 +50,11 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
           }
         ]
     }
+    , sassLoader: {
+      includePaths: [
+        './node_modules/bootstrap-sass/assets/stylesheets',
+      ],
+    }
   };
 };
 

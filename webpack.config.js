@@ -2,7 +2,7 @@ var path = require('path')
   , webpack = require('webpack')
   ;
 
-var APP_DIR = path.resolve(__dirname, 'client')
+var APP_DIR = path.resolve(__dirname, 'assets')
   , BUILD_DIR = path.resolve(__dirname, 'public')
   , ENTRY_FILE = 'main.jsx'
   , config;
