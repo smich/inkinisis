@@ -33,7 +33,7 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
         , {
           test: /\.scss$/
           // Compile SASS to CSS
-          , loader: ExtractTextPlugin.extract('css!sass')
+          , loader: ExtractTextPlugin.extract('css!autoprefixer!sass')
         }
       ]
 

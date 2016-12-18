@@ -26,6 +26,7 @@
     "split-by-name-webpack-plugin": "0.0.3"
   },
   "devDependencies": {
+    "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.7",
     "babel-preset-es2015": "^6.18.0",

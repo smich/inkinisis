@@ -4,8 +4,6 @@
  * - transpile jsx to js
  * - compile SASS to CSS,
  * - add a style tag with all compiled SASS inside the head
- *
- * @type {ExtractTextPlugin}
  */
 
 var webpack = require('webpack');
@@ -48,7 +46,7 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
           , {
             test: /\.scss$/
               // Compile SASS to CSS
-              , loaders: ['style-loader', 'css-loader', 'sass-loader']
+              , loaders: ['style-loader', 'css-loader', 'autoprefixer-loader', 'sass-loader']
           }
         ]
     }
