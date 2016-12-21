@@ -5,6 +5,8 @@
  * And we have excluded components that we're not using (eg. glyphicons)
  */
 
+// The node_modules/bootstrap-sass/stylesheets is loaded into webpack via includePaths
+
 // IMPORTANT: We've added our own version of bootstrap variables
 // based on "bootstrap/variables" scss file
 
@@ -12,7 +14,6 @@
 //      "bootstrap/glyphicons"
 //      "bootstrap/breadcrumbs"
 //      "bootstrap/wells"
-//      "bootstrap/carousel"
 
 // Core variables and mixins
 @import "bootstrap/variables";
@@ -21,11 +22,12 @@
 // Reset and dependencies
 @import "bootstrap/normalize";
 @import "bootstrap/print";
-@import "bootstrap/glyphicons";
+//@import "bootstrap/glyphicons";
 
 // Core CSS
 @import "bootstrap/scaffolding";
 @import "bootstrap/type";
+@import "bootstrap/code";
 @import "bootstrap/code";
 @import "bootstrap/grid";
 @import "bootstrap/tables";
@@ -39,7 +41,7 @@
 @import "bootstrap/input-groups";
 @import "bootstrap/navs";
 @import "bootstrap/navbar";
-@import "bootstrap/breadcrumbs";
+//@import "bootstrap/breadcrumbs";
 @import "bootstrap/pagination";
 @import "bootstrap/pager";
 @import "bootstrap/labels";
@@ -52,7 +54,7 @@
 @import "bootstrap/list-group";
 @import "bootstrap/panels";
 @import "bootstrap/responsive-embed";
-@import "bootstrap/wells";
+//@import "bootstrap/wells";
 @import "bootstrap/close";
 
 // Components w/ JavaScript

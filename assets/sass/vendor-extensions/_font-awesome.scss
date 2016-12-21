@@ -1,0 +1,27 @@
+/*!
+ *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *
+ * This is a copy of the _bootstrap.sccss shipped with bootstrap-sass
+ * And we have excluded components that we're not using (eg. glyphicons)
+ */
+
+// The /assets/sass/vendor is loaded into webpack via includePaths, hence the access
+// to font-awesome/
+
+@import "font-awesome/variables";
+
+// Font awesome variable overrides
+@import '../vendor-extensions/font-awesome-variables';
+
+@import "font-awesome/mixins";
+@import "font-awesome/path";
+@import "font-awesome/core";
+@import "font-awesome/larger";
+@import "font-awesome/fixed-width";
+@import "font-awesome/list";
+@import "font-awesome/bordered-pulled";
+@import "font-awesome/animated";
+@import "font-awesome/rotated-flipped";
+@import "font-awesome/stacked";
+@import "font-awesome/icons";
+@import "font-awesome/screen-reader";

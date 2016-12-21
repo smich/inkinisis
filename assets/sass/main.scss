@@ -4,8 +4,9 @@ $font-stack:    Helvetica, sans-serif;
 $primary-color: green;
 
 
-// 0. Import default bootstrap source
+// 0. Import default bootstrap source and font-awesome
 @import 'vendor-extensions/bootstrap';
+@import 'vendor-extensions/font-awesome';
 
 // 1. Configuration and helpers
 @import

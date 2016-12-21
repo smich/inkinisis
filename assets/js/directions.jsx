@@ -361,6 +361,8 @@ class Directions extends React.Component {
             Distance: {this.state.route.distance}
           </div>
         </div>
+        <input type="button" className="btn btn-default" value="the label"/>
+        <i className="fa fa-address-book"></i>
         <div id="map" ref={elem => {this.mapEl = elem}}></div>
       </div>
     )

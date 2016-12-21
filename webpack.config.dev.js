@@ -34,6 +34,10 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
     , module: {
         loaders: [
           {
+            test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/
+            , loader: "file-loader"
+          }
+          , {
             test: /.jsx?$/
             , exclude: /node_modules/
             , loaders: [
@@ -52,7 +56,7 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
     }
     , sassLoader: {
       includePaths: [
-        './node_modules/bootstrap-sass/assets/stylesheets',
+        './assets/sass/vendor',
       ],
     }
   };
