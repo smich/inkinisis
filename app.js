@@ -1,5 +1,16 @@
 'use strict';
 
+// Transpile all files with the extensions .es6, .es, .jsx, .js on-the-fly using babel.
+// This allows the usage of es6 features/syntax on server-side which makes development easier.
+// NOTICE: On production an extra step is required to transpile all code using babel (see package.json scripts).
+// @todo - add the following to package.json scripts
+// @todo ./server this is the dir that contains all code
+// "build-server": "node ./node_modules/babel-cli/bin/babel.js -d ./build ./server -s",
+// "lint": "eslint source/ --quiet",
+// "debug": "node --debug ./build/index.js",
+// "validate": "npm run lint; npm run test && npm outdated --depth 0"
+require('babel-register');
+
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');

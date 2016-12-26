@@ -1,3 +1,6 @@
+'use strict';
+
+
 import React from 'react';
 import ReactDom from 'react-dom';
 
@@ -5,6 +8,7 @@ const API_KEY = "AIzaSyDWX70SmFG_dc15_K-MbMRAAlurTOjEt3w";
 
 const ATHENS_LAT = 37.9838096;
 const ATHENS_LNG = 23.727538800000048;
+
 
 class Directions extends React.Component {
   constructor(props) {

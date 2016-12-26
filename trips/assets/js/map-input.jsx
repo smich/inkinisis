@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-class MapControl extends React.Component {
+import {MAP_INPUT_PICKUP, MAP_INPUT_DESTINATION} from 'constants';
+
+
+class MapInput extends React.Component {
   constructor(props) {
     super(props);
 

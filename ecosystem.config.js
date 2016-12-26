@@ -11,6 +11,8 @@ var watchIgnoreList = [
   , "README.md"
   , ".git"
   , ".gitignore"
+  , "*\/__tests__\/*"
+  , "*.hbs$"
 ];
 
 module.exports = {
