@@ -11,6 +11,13 @@
 // "validate": "npm run lint; npm run test && npm outdated --depth 0"
 require('babel-register');
 
+
+// import express from 'express';
+// import path from 'path';
+// import favicon from 'serve-favicon';
+// import logger from 'logger';
+// import cookieParser from 'cookie-parser';
+// import bodyParser from 'body-parser';
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');

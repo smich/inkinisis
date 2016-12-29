@@ -21,7 +21,7 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
       // "path" is now "/" because we're building our app into memory now rather than a build folder
       path: '/'
         , filename: '[name].js'
-        , publicPath: 'http://inkinisis.dev/'
+        , publicPath: 'https://inkinisis.dev/'
       }
     , plugins: [
       // Webpack 1.0

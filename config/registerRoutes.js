@@ -1,13 +1,16 @@
 'use strict';
 
-const path = require('path');
+import path from 'path';
 
 const ROOT_DIR = './..';
 
 // Define all micro-app names
 // @todo: Move this to settings
 const APPS = {
-  landing: {
+  "control-panel": {
+    urlBase: "/cp"
+  }
+  , landing: {
     urlBase: "/"
   }
   , trips: {

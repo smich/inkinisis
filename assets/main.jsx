@@ -4,14 +4,14 @@ import React from 'react';
 import ReactDom from 'react-dom';
 
 import Directions from './js/directions.jsx';
-import Test from './js/test.jsx';
+import '../control-panel/assets/js/control-panel-page.jsx';
 
 import './sass/main.scss'
 
 
-if (document.getElementById('test')) {
-  ReactDom.render(<Test/>, document.getElementById('test'));
-}
+// if (document.getElementById('control-panel')) {
+//
+// }
 
 if (module.hot) {
   module.hot.accept();

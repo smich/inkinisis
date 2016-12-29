@@ -12,7 +12,8 @@ var watchIgnoreList = [
   , ".git"
   , ".gitignore"
   , "*\/__tests__\/*"
-  , "*.hbs$"
+  , "*\.hbs$"
+  , "*\.jsx$"
 ];
 
 module.exports = {
