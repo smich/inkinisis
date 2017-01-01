@@ -15,16 +15,16 @@ const ListItem = function({id=-1, label, url}) {
   )
 };
 
-const TripList = function(props) {
+const TripList = function({trips=[]}) {
   let tripList = [];
 
-  if (!props.trips) {
-    tripList.push(<ListItem label="No trips" />);
-  }
-
-  tripList = props.trips.map(trip => {
+  tripList = trips.map(trip => {
     return <ListItem key={trip.id} id={trip.id} label={trip.label} url={`/trips/${trip.id}`} />;
   });
+
+  if (!trips.length) {
+    tripList.push(<ListItem key="-1" label="No trips" />);
+  }
 
   return (
     <div className="my-trips">
