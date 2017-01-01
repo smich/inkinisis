@@ -1,6 +1,5 @@
 var watchIgnoreList = [
-  "assets"
-  , "ecosystem.config.js"
+  "ecosystem.config.js"
   , "package.json"
   , "webpack.config.js"
   , "webpack.config.dev.js"
@@ -11,9 +10,11 @@ var watchIgnoreList = [
   , "README.md"
   , ".git"
   , ".gitignore"
+  , "assets"
+  , "views"
+  , "*\/assets\/*"
   , "*\/__tests__\/*"
-  , "*\.hbs$"
-  , "*\.jsx$"
+  , "*\/views\/*"
 ];
 
 module.exports = {

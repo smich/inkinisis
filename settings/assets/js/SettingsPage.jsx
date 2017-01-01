@@ -15,11 +15,11 @@ const SettingsNavBarSide = function() {
 
 const SettingsPage = function(props) {
   return (
-    <div className="settings-page">
-      <div className="col-xs-4 settings-page__nav">
+    <div className="row page page--settings">
+      <div className="col-xs-4 page--settings__nav">
         <SettingsNavBarSide />
       </div>
-      <div className="col-xs-8 settings-page__content">
+      <div className="col-xs-8 page--settings__content">
         {props.children}
       </div>
     </div>

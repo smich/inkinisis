@@ -5,21 +5,26 @@ import express from 'express';
 
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-
 import {getView} from '../lib/utils';
 // import Test from '../assets/js/test.jsx';
 
-const APP_NAME = 'control-panel';
+const APP_NAME = 'inkinisis';
 const router = express.Router();
-// let TestComponent = React.createFactory(Test);
 
 /**
- *
+ * Main landing page
  */
 router.get('/', function(req, res, next) {
+  res.render(getView(APP_NAME, 'landing'), {
+    layout: 'layout_landing'
+    , title: 'Express'
+  });
+});
+
+// send all requests to index.html so browserHistory in React Router works
+router.get('*', function (req, res, next) {
   res.render(getView(APP_NAME, 'index'), {
-    title: 'User Control Panel'
-    , reactHTML: 'react html should go here'//ReactDOMServer.renderToString(TestComponent({}))
+    reactHTML: "Da loading yo..."//ReactDOMServer.renderToString(TestComponent({}))
   });
 });
 

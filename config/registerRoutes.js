@@ -7,14 +7,8 @@ const ROOT_DIR = './..';
 // Define all micro-app names
 // @todo: Move this to settings
 const APPS = {
-  "control-panel": {
-    urlBase: "/cp"
-  }
-  , landing: {
+  inkinisis: {
     urlBase: "/"
-  }
-  , trips: {
-    urlBase: "/trips"
   }
 };
 

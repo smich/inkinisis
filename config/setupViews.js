@@ -13,8 +13,7 @@ const VIEWS_PARTIAL_PATH = path.join(VIEWS_PATH, 'partials');
 // Define all micro-app names
 // @todo: Move this to settings
 const APP_NAMES = [
-  "control-panel"
-  , "landing"
+  "inkinisis"
   , "settings"
   , "trips"
 ];

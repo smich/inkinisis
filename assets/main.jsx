@@ -1,18 +1,12 @@
 'use strict';
 
-import React from 'react';
-import ReactDom from 'react-dom';
-
-import Directions from './js/directions.jsx';
-import '../control-panel/assets/js/control-panel-page.jsx';
-
+// Load the SASS rules
 import './sass/main.scss'
+// Load the main View
+import '../inkinisis/assets/js/IndexView.jsx';
 
 
-// if (document.getElementById('control-panel')) {
-//
-// }
-
+// Setup Hot Reload
 if (module.hot) {
   module.hot.accept();
 }
