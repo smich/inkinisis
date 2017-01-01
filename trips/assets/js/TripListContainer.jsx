@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import { connect } from 'react-redux';
 
 import NavLink from '../../../assets/js/base/NavLink.jsx';
 
@@ -35,30 +36,15 @@ const TripList = function(props) {
   );
 };
 
+const mapStateToProps = (state) => {
+  return {
+    trips: state.trips ? state.trips : []
+  };
+};
 
-class TripListContainer extends React.Component {
-  render() {
-    let trips = [
-      {
-        id: 1
-        , label: "First trip"
-      }
-      , {
-        id: 2
-        , label: "Second trip"
-      }
-      ,{
-        id: 3
-        , label: "Third trip"
-      }
-    ];
-    return (
-      <TripList trips={trips}/>
-    );
-  }
-}
+const TripListContainer = connect(
+  mapStateToProps
+)(TripList);
 
-TripListContainer.defaultProps = {};
-TripListContainer.propTypes = {};
 
 export { TripListContainer as default};

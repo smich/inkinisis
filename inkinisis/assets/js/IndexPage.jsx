@@ -15,7 +15,7 @@ import INavBar from './components/NavBar.jsx';
 const IndexPage = function(props) {
   return (
     <div className="clearfix">
-      <INavBar history={props.route.history} />
+      <INavBar history={props.history} />
       {props.children}
     </div>
   ) ;
