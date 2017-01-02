@@ -38,13 +38,16 @@ const configureStore = function(initialState) {
  * @returns {XML}
  * @constructor
  */
-const IndexPageLayout = function({history, children}) {
+const IndexPageLayout = function({children}, {history}) {
   return (
     <div className="clearfix">
       <INavBar history={history} />
       {children}
     </div>
   );
+};
+IndexPageLayout.contextTypes = {
+  history: React.PropTypes.object
 };
 
 /**
@@ -54,13 +57,16 @@ const IndexPageLayout = function({history, children}) {
  * @returns {XML}
  * @constructor
  */
-const IndexPage = function({route, children}) {
-  const store = configureStore(route.initialState);
+const IndexPage = function({children}, {initialState}) {
+  const store = configureStore(initialState);
   return (
     <Provider store={store}>
-      <IndexPageLayout history={route.history} children={children} />
+      <IndexPageLayout children={children} />
     </Provider>
   );
+};
+IndexPage.contextTypes = {
+  initialState: React.PropTypes.object
 };
 
 export default IndexPage;
