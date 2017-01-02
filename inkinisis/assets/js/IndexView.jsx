@@ -2,12 +2,15 @@
 
 import React from 'react';
 import ReactDom from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router'
 
+import appReducers from './lib/appReducers.js';
 import iRoutes from './lib/iRoutes.jsx';
 
 
-const initialState = {
+/*const initialState = {
   trips: [
     {
       id: 1
@@ -25,6 +28,26 @@ const initialState = {
       , likes: 3
     }
   ]
+};*/
+
+/**
+ * Create the redux store and enable Webpack hot module replacement for reducers
+ *
+ * @param initialState
+ * @returns {Store<S>}
+ */
+const configureStore = function(initialState) {
+  const store = createStore(appReducers, initialState);
+
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('./lib/appReducers.js', () => {
+      const nextRootReducer = require('./lib/appReducers.js');
+      store.replaceReducer(nextRootReducer);
+    });
+  }
+
+  return store;
 };
 
 /**
@@ -37,19 +60,23 @@ class RouterComponent extends React.Component {
   getChildContext() {
     return {
       history: browserHistory
-      , initialState: initialState
     }
   }
 
   render() {
+    console.log('IN ROOT COMPONENT');
+    console.log(window.__PRELOADED_STATE__);
+    const initialState = window.__PRELOADED_STATE__;
+    const store = configureStore(initialState);
     return (
-      <Router history={browserHistory} routes={iRoutes}/>
+      <Provider store={store}>
+        <Router history={browserHistory} routes={iRoutes}/>
+      </Provider>
     )
   }
 }
 RouterComponent.childContextTypes = {
   history: React.PropTypes.object
-  , initialState: React.PropTypes.object
 };
 
 /**

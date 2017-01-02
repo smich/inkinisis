@@ -5,9 +5,12 @@ import express from 'express';
 
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { match, RouterContext } from 'react-router';
 
 import { getView } from '../lib/utils';
+import appReducers from './assets/js/lib/appReducers.js';
 import iRoutes from './assets/js/lib/iRoutes.jsx';
 
 // import Test from '../assets/js/test.jsx';
@@ -52,16 +55,42 @@ router.get('*', function (req, res, next) {
     }
     // If we got props then we matched a route and can render
     else if (props) {
+      /*const initialState = {
+          trips: [
+            {
+              id: 1
+            , label: "First trip"
+            , likes: 1
+          }
+          , {
+            id: 2
+            , label: "Second trip"
+            , likes: 2
+          }
+          , {
+            id: 3
+            , label: "Third trip"
+            , likes: 3
+          }
+        ]
+      };*/
       // `RouterContext` is what the `Router` renders. `Router` keeps these
       // `props` in its state as it listens to `browserHistory`. But on the
       // server our app is stateless, so we need to use `match` to
       // get these props before rendering.
-      const appHtml = renderToString(<RouterContext {...props}/>)
+      const store = createStore(appReducers);
+      const appHtml = renderToString(
+        <Provider store={store}>
+          <RouterContext {...props}/>
+        </Provider>
+      );
 
+      const preloadedState = store.getState();
       console.log('REACT HTML ::: ');
       console.log(appHtml);
       res.render(getView(APP_NAME, 'index'), {
-        reactHTML: appHtml
+        preloadedState: JSON.stringify(preloadedState)
+        , reactHTML: appHtml
       });
     } else {
       // no errors, no redirect, we just didn't match anything
