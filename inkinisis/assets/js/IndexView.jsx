@@ -64,7 +64,7 @@ class RouterComponent extends React.Component {
   }
 
   render() {
-    console.log('IN ROOT COMPONENT');
+    console.log('IN ROOTTTT COMPONENT');
     console.log(window.__PRELOADED_STATE__);
     const initialState = window.__PRELOADED_STATE__;
     const store = configureStore(initialState);

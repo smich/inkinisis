@@ -18,6 +18,38 @@ import iRoutes from './assets/js/lib/iRoutes.jsx';
 const APP_NAME = 'inkinisis';
 const router = express.Router();
 
+const fetchData = function(path) {
+  const routeData = {
+    '/trips'() {
+      return {
+        trips: [
+          {
+            id: 1
+            , label: "First trip"
+            , likes: 1
+          }
+          , {
+            id: 2
+            , label: "Second trip!"
+            , likes: 2
+          }
+          , {
+            id: 3
+            , label: "Third trip"
+            , likes: 3
+          }
+        ]
+      };
+    }
+  };
+  if (routeData[path]) {
+    return routeData[path]();
+  }
+  else {
+    return {};
+  }
+};
+
 /**
  * Main landing page
  */
@@ -27,15 +59,6 @@ router.get('/', function(req, res, next) {
     , title: 'Express'
   });
 });
-
-/**
- * Match the rest of the routes  so browserHistory in React Router works
- */
-/*router.get('*', function (req, res, next) {
-  res.render(getView(APP_NAME, 'index'), {
-    reactHTML: "Da loading yo..."//ReactDOMServer.renderToString(TestComponent({}))
-  });
-});*/
 
 router.get('*', function (req, res, next) {
   match({
@@ -55,41 +78,24 @@ router.get('*', function (req, res, next) {
     }
     // If we got props then we matched a route and can render
     else if (props) {
-      /*const initialState = {
-          trips: [
-            {
-              id: 1
-            , label: "First trip"
-            , likes: 1
-          }
-          , {
-            id: 2
-            , label: "Second trip"
-            , likes: 2
-          }
-          , {
-            id: 3
-            , label: "Third trip"
-            , likes: 3
-          }
-        ]
-      };*/
+      const routeData = fetchData(req.path);
+      // const preloadedState = {};
+      const preloadedState = Object.assign({}, {}, routeData);
+
       // `RouterContext` is what the `Router` renders. `Router` keeps these
       // `props` in its state as it listens to `browserHistory`. But on the
       // server our app is stateless, so we need to use `match` to
       // get these props before rendering.
-      const store = createStore(appReducers);
+      const store = createStore(appReducers, preloadedState);
       const appHtml = renderToString(
         <Provider store={store}>
           <RouterContext {...props}/>
         </Provider>
       );
 
-      const preloadedState = store.getState();
-      console.log('REACT HTML ::: ');
-      console.log(appHtml);
+      const finalState = store.getState();
       res.render(getView(APP_NAME, 'index'), {
-        preloadedState: JSON.stringify(preloadedState)
+        preloadedState: JSON.stringify(finalState)
         , reactHTML: appHtml
       });
     } else {

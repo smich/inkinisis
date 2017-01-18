@@ -7,6 +7,7 @@
  */
 
 var webpack = require('webpack');
+var path = require('path');
 
 
 var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
@@ -18,11 +19,20 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
     ]
     , devtool: 'source-map'
     , output: {
-      // "path" is now "/" because we're building our app into memory now rather than a build folder
-      path: '/'
-        , filename: '[name].js'
-        , publicPath: 'https://inkinisis.dev/'
-      }
+      // "path" is now "/public"; we're building our app into memory now rather than a build folder
+      // "path" is the location where the bundle file is saved
+      path: '/public'
+      , filename: '[name].js'
+      // Used by plubins (e.g file-loader, url-loader) to generate url paths for images, stylesheets etc
+      // e.g
+      //.image{
+      //  background-image: url(./test.png)
+      //}
+      //.image{
+      //  background-image: url(https://inkinisis.dev/some-hash.png)
+      //}
+      , publicPath: 'https://inkinisis.dev/'
+    }
     , plugins: [
       // Webpack 1.0
       new webpack.optimize.OccurenceOrderPlugin(),
@@ -31,9 +41,21 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin()
     ]
+    , resolve: {
+      root: [path.resolve('./')],
+    }
     , module: {
         loaders: [
           {
+            test: /\.(jpe?g|png|gif|svg|ico)$/i
+            // , include: 'assets/img/'
+            , loader: "file-loader"
+            , options: {
+              // limit: 50000
+              name: '[path][name].[hash].[ext]'
+            }
+          }
+          , {
             test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/
             , loader: "file-loader"
           }
