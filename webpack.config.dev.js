@@ -33,54 +33,55 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
       //}
       , publicPath: 'https://inkinisis.dev/'
     }
-    , plugins: [
-      // Webpack 1.0
-      new webpack.optimize.OccurenceOrderPlugin(),
-      // Webpack 2.0 fixed this misspelling
-      // new webpack.optimize.OccurrenceOrderPlugin(),
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin()
-    ]
     , resolve: {
-      root: [path.resolve('./')],
-    }
-    , module: {
-        loaders: [
-          {
-            test: /\.(jpe?g|png|gif|svg|ico)$/i
-            // , include: 'assets/img/'
-            , loader: "file-loader"
-            , options: {
-              // limit: 50000
-              name: '[path][name].[hash].[ext]'
-            }
-          }
-          , {
-            test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/
-            , loader: "file-loader"
-          }
-          , {
-            test: /.jsx?$/
-            , exclude: /node_modules/
-            , loaders: [
-              // ORDER MATTERS; "react-hot" needs to be on the left, because webpack processes the loaders from right-to-left
-              'react-hot'
-              // webpack forbids the "loader.query" property when you have multiple loaders; use a queryString to pass those details
-              , 'babel?presets[]=react,presets[]=es2015'
-            ]
-          }
-          , {
-            test: /\.scss$/
-              // Compile SASS to CSS
-              , loaders: ['style-loader', 'css-loader', 'autoprefixer-loader', 'sass-loader']
-          }
-        ]
-    }
-    , sassLoader: {
-      includePaths: [
-        './assets/sass/vendor',
+      modules: [
+        path.resolve('./')
+        , './assets'
+        , 'node_modules'
       ],
     }
+    , module: {
+      rules: [
+        {
+          test: /\.(jpe?g|png|gif|svg|ico)$/i
+          , use: "file-loader"
+          , options: {
+            // limit: 50000
+            name: '[path][name].[hash].[ext]'
+          }
+        }
+        , {
+          test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/
+          , use: "file-loader"
+        }
+        , {
+          test: /.jsx?$/
+          , use: [
+            // ORDER MATTERS; "react-hot" needs to be on the left, because webpack processes the loaders from right-to-left
+            'react-hot'
+            // webpack forbids the "loader.query" property when you have multiple loaders; use a queryString to pass those details
+            , { loader: 'babel', options: { presets: [ 'es2015', 'react' ] } }
+          ]
+          , exclude: /node_modules/
+        }
+        , {
+          test: /\.scss$/
+            // Compile SASS to CSS
+            , use: [
+              'style-loader'
+              , { loader: 'css-loader', options: { /*modules: true, localIdentName: '[name]__[local]__[hash:base64:5]', importLoaders: 1*/ } }
+              , { loader: 'postcss-loader' }
+              , { loader: 'sass-loader', options: { includePaths: ['./assets/sass/vendor'] } }
+            ]
+        }
+      ]
+    }
+    , plugins: [
+      // Webpack 2.0 fixed this misspelling
+      // new webpack.optimize.OccurrenceOrderPlugin(),
+      new webpack.HotModuleReplacementPlugin()
+      , new webpack.NoErrorsPlugin()
+    ]
   };
 };
 

@@ -10,7 +10,8 @@
  */
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-  , webpack = require('webpack');
+  , webpack = require('webpack')
+  , path = require('path');
 
 
 var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
@@ -20,29 +21,54 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
       path: BUILD_DIR
       , filename: '[name].js'
     }
+    , resolve: {
+      modules: [
+        path.resolve('./assets')
+        , 'node_modules'
+      ],
+    }
     , module: {
-      loaders: [
+      rules: [
         {
+          test: /\.(jpe?g|png|gif|svg|ico)$/i
+          , use: "file-loader"
+          , options: {
+            // limit: 50000
+            name: '[path][name].[hash].[ext]'
+          }
+        }
+        , {
+          test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/
+          , use: "file-loader"
+        }
+        , {
           test: /.jsx?$/
-          , loader: 'babel-loader'
+          , use: [
+            { loader: 'babel', options: { presets: [ 'es2015', 'react' ] } }
+          ]
           , exclude: /node_modules/
-          , query: {
-              presets: ['es2015', 'react']
-            }
         }
         , {
           test: /\.scss$/
           // Compile SASS to CSS
-          , loader: ExtractTextPlugin.extract('css!autoprefixer!sass')
+          , loader: ExtractTextPlugin.extract({
+            fallbackLoader: { loader: 'style-loader' }
+            , loader: [
+              // { loader: 'style-loader' }
+              { loader: 'css-loader' }
+              , { loader: 'postcss-loader' }
+              , { loader: 'sass-loader', query: { includePaths: ['./assets/sass/vendor'] } }
+            ]
+          })
         }
       ]
 
     }
     , plugins: [
-
       // Extract compiled SASS code to a separate file
-      new ExtractTextPlugin('/main.css', {
-        allChunks: true
+      new ExtractTextPlugin({
+        filename: '/main.css'
+        , allChunks: true
       })
       // Use a production ready minified React code
       , new webpack.DefinePlugin({
