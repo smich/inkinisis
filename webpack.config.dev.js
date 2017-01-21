@@ -44,10 +44,10 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
       rules: [
         {
           test: /\.(jpe?g|png|gif|svg|ico)$/i
-          , use: "file-loader"
+          , use: "url-loader"
           , options: {
-            // limit: 50000
-            name: '[path][name].[hash].[ext]'
+            limit: 50000
+            , name: '[path][name].[hash].[ext]'
           }
         }
         , {

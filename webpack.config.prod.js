@@ -76,7 +76,12 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
           NODE_ENV: JSON.stringify('production')
         }
       })
-      , new webpack.optimize.UglifyJsPlugin()
+      , new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: true
+        }
+        , sourceMap: true
+      })
     ]
   };
 };

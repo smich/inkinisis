@@ -4,9 +4,7 @@ import React from 'react';
 
 import INavBar from './components/NavBar.jsx';
 
-console.log('__dirname');
-console.log(__dirname);
-// import myimg from 'img/logo.png';
+// import myimg from './../../../assets/img/logo.png';
 
 const myimg = '#';
 
