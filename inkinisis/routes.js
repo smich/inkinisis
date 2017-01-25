@@ -2,6 +2,7 @@
 
 import path from 'path';
 import express from 'express';
+import httpProxy from 'http-proxy';
 
 import React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -17,6 +18,8 @@ import iRoutes from './assets/js/lib/iRoutes.jsx';
 
 const APP_NAME = 'inkinisis';
 const router = express.Router();
+const proxy = httpProxy.createProxyServer();
+
 
 const fetchData = function(path) {
   const routeData = {
@@ -59,6 +62,20 @@ router.get('/', function(req, res, next) {
     , title: 'Express'
   });
 });
+
+console.log('development :: ' + process.env.NODE_ENV);
+if (process.env.NODE_ENV == 'development') {
+  console.log('IN DEVELOPMENT ENV');
+
+  // Any requests to localhost:3000/build is proxied
+  // to webpack-dev-server
+  router.get('/build/*', function (req, res) {
+    console.log('getting resource from build ::: ' + req.path);
+    proxy.web(req, res, {
+      target: 'http://inkinisis.dev:3001'
+    });
+  });
+}
 
 router.get('*', function (req, res, next) {
   match({

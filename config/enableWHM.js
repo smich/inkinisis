@@ -1,7 +1,7 @@
 var webpack = require('webpack')
   , webpackDevMiddleware = require('webpack-dev-middleware')
   , webpackHotMiddleware = require('webpack-hot-middleware')
-  , webpackconfig = require('./../webpack.config.js')
+  , webpackconfig = require('./../webpack/webpack.config.js')
   , webpackcompiler
   ;
 

@@ -8,20 +8,21 @@
 
 var webpack = require('webpack');
 var path = require('path');
+var buildPath = path.resolve(__dirname, 'public', 'build');
 
 
 var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
   return {
     entry: [
-      'webpack/hot/dev-server'
-      , 'webpack-hot-middleware/client'
-      , [APP_DIR, ENTRY_FILE].join('/')
+      // 'webpack/hot/dev-server'
+      // , 'webpack-hot-middleware/client'
+      [APP_DIR, ENTRY_FILE].join('/')
     ]
     , devtool: 'source-map'
     , output: {
       // "path" is now "/public"; we're building our app into memory now rather than a build folder
       // "path" is the location where the bundle file is saved
-      path: '/public'
+      path: buildPath
       , filename: '[name].js'
       // Used by plubins (e.g file-loader, url-loader) to generate url paths for images, stylesheets etc
       // e.g
@@ -31,7 +32,7 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
       //.image{
       //  background-image: url(https://inkinisis.dev/some-hash.png)
       //}
-      , publicPath: 'https://inkinisis.dev/'
+      , publicPath: 'http://0.0.0.0:3001/build/'
     }
     , resolve: {
       modules: [
@@ -44,10 +45,12 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
       rules: [
         {
           test: /\.(jpe?g|png|gif|svg|ico)$/i
-          , use: "url-loader"
-          , options: {
-            limit: 50000
-            , name: '[path][name].[hash].[ext]'
+          , use: {
+            loader: "url-loader"
+            , options: {
+              limit: 50000
+              , name: '[path][name].[hash].[ext]'
+            }
           }
         }
         , {
@@ -58,9 +61,9 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
           test: /.jsx?$/
           , use: [
             // ORDER MATTERS; "react-hot" needs to be on the left, because webpack processes the loaders from right-to-left
-            'react-hot'
+            'react-hot-loader'
             // webpack forbids the "loader.query" property when you have multiple loaders; use a queryString to pass those details
-            , { loader: 'babel', options: { presets: [ 'es2015', 'react' ] } }
+            , { loader: 'babel-loader', options: { presets: [ 'es2015', 'react' ] } }
           ]
           , exclude: /node_modules/
         }
@@ -79,8 +82,8 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
     , plugins: [
       // Webpack 2.0 fixed this misspelling
       // new webpack.optimize.OccurrenceOrderPlugin(),
-      new webpack.HotModuleReplacementPlugin()
-      , new webpack.NoErrorsPlugin()
+      /*new webpack.HotModuleReplacementPlugin()
+      , new webpack.NoEmitOnErrorsPlugin()*/
     ]
   };
 };

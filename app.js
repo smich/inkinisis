@@ -24,8 +24,10 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+var httpProxy = require('http-proxy');
 
 const app = express();
+const proxy = httpProxy.createProxyServer();
 
 // Setup view engine and register the views dir of all micro-apps
 require('./config/setupViews')(app);
@@ -36,13 +38,15 @@ app.use(bodyParser.json({strict: false}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-if (process.env.NODE_ENV == 'production') {
+app.use(express.static(path.join(__dirname, 'public')));
+
+/*if (process.env.NODE_ENV == 'production') {
   app.use(express.static(path.join(__dirname, 'public')));
 }
 else {
   console.log('DEVOLOPMENT ENVIRONMENT ::: Turning on WebPack Middleware...');
   require('./config/enableWHM')(app);
-}
+}*/
 
 // Set global variables
 app.locals.env = app.get('env');
@@ -57,6 +61,24 @@ app.use(orm.express(dbConnString, {
     next();
   }
 }));*/
+
+/*console.log('development :: ' + process.env.NODE_ENV);
+if (process.env.NODE_ENV == 'development') {
+  var router = express.Router();
+
+  console.log('IN DEVELOPMENT ENV');
+
+  // Any requests to localhost:3000/build is proxied
+  // to webpack-dev-server
+  router.get('/build/main.js', function (req, res) {
+    console.log('getting the request ::: ');
+    console.log(req.path);
+
+    proxy.web(req, res, {
+      target: 'http://inkinisis.dev:9090'
+    });
+  });
+}*/
 
 // Register routes of all micro apps
 require('./config/registerRoutes')(app);
