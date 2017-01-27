@@ -63,7 +63,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-console.log('development :: ' + process.env.NODE_ENV);
+console.log('development ::: ' + process.env.NODE_ENV);
 if (process.env.NODE_ENV == 'development') {
   console.log('IN DEVELOPMENT ENV');
 

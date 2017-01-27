@@ -33,4 +33,4 @@ function enableWHM(app) {
   return app;
 }
 
-module.exports = enableWHM;
+// module.exports = enableWHM;

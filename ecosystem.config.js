@@ -30,9 +30,15 @@ module.exports = {
     //   modified
     {
       "name": "ikapp-dev"
-      , "script": "./bin/www"
-      , "watch": true
-      , "ignore_watch" : watchIgnoreList
+      // , "interpreter": "node_modules/babel-cli/bin/babel-node.js"
+      // , "script": "bin/www"
+      , "script": "public/build/bin/www.entry.js"
+      /*, "watch": [
+      /!*  "inkinisis\/!*"
+        ,*!/ "public/build/bin\/!*"
+      ]*/
+      // , "watch": true
+      // , "ignore_watch" : watchIgnoreList
       , "watch_options": {
         "followSymlinks": false
       }

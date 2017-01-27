@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 // Transpile all files with the extensions .es6, .es, .jsx, .js on-the-fly using babel.
 // This allows the usage of es6 features/syntax on server-side which makes development easier.
@@ -9,30 +9,42 @@
 // "lint": "eslint source/ --quiet",
 // "debug": "node --debug ./build/index.js",
 // "validate": "npm run lint; npm run test && npm outdated --depth 0"
-require('babel-register');
+/*require('babel-register', {
+  "presets": [
+    "es2015",
+    "react",
+    // "stage-2"
+  ]
+});*/
 
 
-// import express from 'express';
-// import path from 'path';
-// import favicon from 'serve-favicon';
-// import logger from 'logger';
-// import cookieParser from 'cookie-parser';
-// import bodyParser from 'body-parser';
-const express = require('express');
+import express from 'express';
+import path from 'path';
+import favicon from 'serve-favicon';
+import logger from 'morgan';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+// import httpProxy from 'http-proxy';
+
+/*const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-var httpProxy = require('http-proxy');
+var httpProxy = require('http-proxy');*/
+
+import setupViews from './config/setupViews';
+import registerRoutes from './config/registerRoutes';
 
 const app = express();
-const proxy = httpProxy.createProxyServer();
+// const proxy = httpProxy.createProxyServer();
 
 // Setup view engine and register the views dir of all micro-apps
-require('./config/setupViews')(app);
+// require('./config/setupViews')(app);
+setupViews(app);
 
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json({strict: false}));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -40,17 +52,8 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*if (process.env.NODE_ENV == 'production') {
-  app.use(express.static(path.join(__dirname, 'public')));
-}
-else {
-  console.log('DEVOLOPMENT ENVIRONMENT ::: Turning on WebPack Middleware...');
-  require('./config/enableWHM')(app);
-}*/
-
 // Set global variables
 app.locals.env = app.get('env');
-
 /*var settings = require('./config/settings.js');
 var dbConnString = `${settings.db.protocol}://${settings.db.user}:${settings.db.password}@${settings.db.host}/${settings.db.database}`;
 var orm = require('orm');
@@ -81,7 +84,8 @@ if (process.env.NODE_ENV == 'development') {
 }*/
 
 // Register routes of all micro apps
-require('./config/registerRoutes')(app);
+// require('./config/registerRoutes')(app);
+registerRoutes(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -106,10 +110,11 @@ app.use(function(err, req, res, next) {
 process.on('SIGINT', function() {
   // @todo: Disconnect from DB
 
-  setTimeout(function() {
+  /*setTimeout(function() {
     // 300ms later the process kill it self to allow a restart
     process.exit(0);
-  }, 300);
+  }, 300);*/
+  process.exit(0);
 });
 
 module.exports = app;

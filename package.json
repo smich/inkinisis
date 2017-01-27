@@ -8,6 +8,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "development-build-server": "NODE_ENV=development webpack --config .webpack.config.js --watch --colors --display-error-details",
     "clean": "rm -rf build && mkdir build",
     "build-assets": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p",
     "build": "npm run clean && npm run build-assets && npm run build-server",
@@ -22,7 +23,7 @@
     "cookie-parser": "^1.4.3",
     "debug": "^2.6.0",
     "express": "^4.14.0",
-    "extract-text-webpack-plugin": "^2.0.0-beta.5",
+    "extract-text-webpack-plugin": "^2.0.0-rc.0",
     "font-awesome": "^4.7.0",
     "hbs": "^4.0.1",
     "migrate-orm2": "^2.0.0",
@@ -35,7 +36,9 @@
     "react-redux": "^5.0.2",
     "react-router": "^3.0.2",
     "redux": "^3.6.0",
-    "serve-favicon": "^2.3.2"
+    "serve-favicon": "^2.3.2",
+    "universal-webpack": "^0.2.5",
+    "webpack": "^2.2.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
@@ -58,7 +61,6 @@
     "sass-loader": "^4.1.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^2.2.0",
     "webpack-dev-middleware": "^1.9.0",
     "webpack-dev-server": "^2.2.0",
     "webpack-hot-middleware": "^2.15.0"

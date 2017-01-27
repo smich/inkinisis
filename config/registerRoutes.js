@@ -2,7 +2,7 @@
 
 import path from 'path';
 
-const ROOT_DIR = './..';
+// const ROOT_DIR = './..';
 
 // Define all micro-app names
 // @todo: Move this to settings
@@ -21,10 +21,21 @@ const APPS = {
 function registerRoutes(app) {
   Object.keys(APPS).forEach(appName => {
     const routeUrlBase = APPS[appName].urlBase;
-    const routePath = path.join(ROOT_DIR, appName, 'routes');
+    const routePath = path.join(appName, 'routes.js');
 
-    app.use(routeUrlBase, require(routePath));
+    console.log('routePath ::: ');
+    console.log(routeUrlBase);
+    console.log(appName);
+    console.log(routePath);
+
+    app.use(routeUrlBase,
+      require.context(
+        appName, true, /routes\.js$/
+      ));
+    // app.use(routeUrlBase, require(`${routePath}`));
+    // app.use(routeUrlBase, require("inkinisis/routes.js"));
   });
 }
 
-module.exports = registerRoutes;
+export default registerRoutes;
+// module.exports = registerRoutes;

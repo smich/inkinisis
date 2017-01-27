@@ -7,7 +7,7 @@ const hbsutils = require('hbs-utils')(hbs);
 const path = require('path');
 
 const ROOT_PATH = __dirname + '/..';
-const VIEWS_PATH = path.join(ROOT_PATH, 'views');
+const VIEWS_PATH = 'views';
 const VIEWS_PARTIAL_PATH = path.join(VIEWS_PATH, 'partials');
 
 // Define all micro-app names
@@ -64,7 +64,7 @@ function registerViews(app) {
   ];
 
   appNames.forEach(appName => {
-    viewsPath.push(path.join(ROOT_PATH, appName, 'views'));
+    viewsPath.push(path.join(appName, 'views'));
   });
 
   app.set('views', viewsPath);
@@ -87,7 +87,7 @@ function registerViewsPartials() {
 
   // Register the partials path for each micro-app, if a partials dir exists
   appNames.forEach(appName => {
-    const partialsPath = path.join(ROOT_PATH, appName, 'views', 'partials');
+    const partialsPath = path.join(appName, 'views', 'partials');
     if (fs.existsSync(partialsPath)) {
       hbsutils.registerPartials(partialsPath);
       hbsutils.registerWatchedPartials(partialsPath);
@@ -111,4 +111,5 @@ function setupViews(app) {
   registerHBSHelpers();
 }
 
-module.exports = setupViews;
+export default setupViews;
+// module.exports = setupViews;
