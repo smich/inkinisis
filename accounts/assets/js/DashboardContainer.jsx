@@ -6,7 +6,7 @@ import React from 'react';
 const Dashboard = function(props) {
   return (
     <div className="dashboard">
-      # Dashboard section!!!
+      # Dashboard section!
     </div>
   );
 };

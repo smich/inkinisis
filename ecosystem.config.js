@@ -31,12 +31,11 @@ module.exports = {
     {
       "name": "ikapp-dev"
       // , "interpreter": "node_modules/babel-cli/bin/babel-node.js"
-      // , "script": "bin/www"
-      , "script": "public/build/bin/www.entry.js"
-      /*, "watch": [
-      /!*  "inkinisis\/!*"
-        ,*!/ "public/build/bin\/!*"
-      ]*/
+      , "script": "start-server.babel.js"
+      , "watch": [
+      /*  "inkinisis\/!*"
+        ,*/ "public/build/bin/*"
+      ]
       // , "watch": true
       // , "ignore_watch" : watchIgnoreList
       , "watch_options": {

@@ -8,13 +8,46 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "development-build-server": "NODE_ENV=development webpack --config .webpack.config.js --watch --colors --display-error-details",
-    "clean": "rm -rf build && mkdir build",
-    "build-assets": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p",
-    "build": "npm run clean && npm run build-assets && npm run build-server",
-    "dev": "./node_modules/webpack/bin/webpack.js -d --watch",
-    "start": "pm2 start ecosystem.config.js --only ikapp",
+    "ttest": "PATH=$(npm bin):$PATH",
+
+    "dev": "run-p dev:prepare dev:run-delayed",
+    "dev:prepare": "run-p dev:prepare-server dev:build-client dev:build-server",
+    "dev:run-delayed": "run-s dev:delay-server dev:run",
+
+    "dev:delay-server": "node sleep.js",
+    "dev:run": "pm2 start ecosystem.config.js --only ${APP}",
+
+    "dev:prepare-server": "universal-webpack --settings ./webpack/universal-webpack-settings.js prepare",
+    "dev:build-server": "better-npm-run dev:build-server",
+    "dev:build-client": "better-npm-run dev:build-client",
+
     "test": "jest"
+  },
+  "betterScripts": {
+    "dev:build-client": {
+      "command": "webpack-dev-server --hot --inline --config \"./webpack/webpack.config.js\" --host 0.0.0.0 --port 3001 --colors --content-base build/",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "dev:build-server": {
+      "command": "webpack --watch --config \"./webpack/webpack.config.server.babel.js\" --colors --display-error-details",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "prod:build-client": {
+      "command": "webpack --config \"./webpack/webpack.config.client.babel.js\" --colors --display-error-details",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "prod:build-server": {
+      "command": "webpack --config \"./webpack/webpack.config.server.babel.js\" --colors --display-error-details",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
   },
   "dependencies": {
     "babel-polyfill": "^6.22.0",
@@ -49,12 +82,14 @@
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "babel-register": "^6.18.0",
+    "better-npm-run": "0.0.14",
     "css-loader": "^0.26.1",
     "file-loader": "^0.9.0",
     "hbs-utils": "0.0.4",
     "http-proxy": "^1.16.2",
     "jest": "^18.1.0",
     "node-sass": "^4.3.0",
+    "npm-run-all": "^4.0.1",
     "postcss-loader": "^1.2.2",
     "react-hot-loader": "^1.3.1",
     "react-test-renderer": "^15.4.2",

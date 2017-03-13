@@ -63,10 +63,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-console.log('development ::: ' + process.env.NODE_ENV);
 if (process.env.NODE_ENV == 'development') {
-  console.log('IN DEVELOPMENT ENV');
-
   // Any requests to localhost:3000/build is proxied
   // to webpack-dev-server
   router.get('/build/*', function (req, res) {

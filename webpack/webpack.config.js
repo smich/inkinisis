@@ -30,7 +30,7 @@ var config = {
     // "path" is the location where the bundle file is saved
     path: buildPath
     , filename: '[name].js'
-    // Used by plubins (e.g file-loader, url-loader) to generate url paths for images, stylesheets etc
+    // Used by plugins (e.g file-loader, url-loader) to generate url paths for images, stylesheets etc
     // e.g
     //.image{
     //  background-image: url(./test.png)

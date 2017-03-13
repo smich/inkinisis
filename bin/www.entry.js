@@ -1,3 +1,5 @@
+// The server code must export a function
+// (`parameters` may contain some miscellaneous library-specific stuff)
 export default function(parameters) {
   /**
    * Module dependencies.

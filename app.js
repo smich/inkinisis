@@ -9,6 +9,12 @@
 // "lint": "eslint source/ --quiet",
 // "debug": "node --debug ./build/index.js",
 // "validate": "npm run lint; npm run test && npm outdated --depth 0"
+//    "clean": "run rm -rf build && mkdir build",
+//    "build-assets": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p",
+//    "build": "npm run clean && npm run build-assets && npm run build-server",
+//    "dev": "./node_modules/webpack/bin/webpack.js -d --watch",
+//    "start": "pm2 start ecosystem.config.js --only ikapp",
+
 /*require('babel-register', {
   "presets": [
     "es2015",
@@ -49,6 +55,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json({strict: false}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+
+console.log('ASSETS :::' + path.join(__dirname, 'public'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
