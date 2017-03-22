@@ -8,24 +8,26 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "ttest": "PATH=$(npm bin):$PATH",
-
     "dev": "run-p dev:prepare dev:run-delayed",
     "dev:prepare": "run-p dev:prepare-server dev:build-client dev:build-server",
     "dev:run-delayed": "run-s dev:delay-server dev:run",
-
     "dev:delay-server": "node sleep.js",
     "dev:run": "pm2 start ecosystem.config.js --only ${APP}",
-
     "dev:prepare-server": "universal-webpack --settings ./webpack/universal-webpack-settings.js prepare",
+    "dev:build-server-once": "better-npm-run dev:build-server-once",
     "dev:build-server": "better-npm-run dev:build-server",
     "dev:build-client": "better-npm-run dev:build-client",
-
     "test": "jest"
   },
   "betterScripts": {
     "dev:build-client": {
-      "command": "webpack-dev-server --hot --inline --config \"./webpack/webpack.config.js\" --host 0.0.0.0 --port 3001 --colors --content-base build/",
+      "command": "webpack-dev-server --hot --inline --config \"./webpack/webpack.config.client.babel.js\" --host 0.0.0.0 --port 3001 --colors --content-base build/",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "dev:build-server-once": {
+      "command": "webpack --config \"./webpack/webpack.config.server.babel.js\" --colors --display-error-details",
       "env": {
         "NODE_ENV": "development"
       }
@@ -71,7 +73,8 @@
     "redux": "^3.6.0",
     "serve-favicon": "^2.3.2",
     "universal-webpack": "^0.2.5",
-    "webpack": "^2.2.0"
+    "webpack": "^2.2.0",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",

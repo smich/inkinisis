@@ -30,6 +30,9 @@ import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+// import { wlogger, tmslog } from 'components/Logger.js';
+// tmslog('info', '[HEADER]', ' // MESSAGE -------\n');
+
 // import httpProxy from 'http-proxy';
 
 /*const express = require('express');

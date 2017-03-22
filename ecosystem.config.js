@@ -34,7 +34,7 @@ module.exports = {
       , "script": "start-server.babel.js"
       , "watch": [
       /*  "inkinisis\/!*"
-        ,*/ "public/build/bin/*"
+        ,*/ "public"
       ]
       // , "watch": true
       // , "ignore_watch" : watchIgnoreList
