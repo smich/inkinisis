@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import INavBar from './components/NavBar.jsx';
 
@@ -26,7 +27,7 @@ const IndexPage = function({children}, {history}) {
   );
 };
 IndexPage.contextTypes = {
-  history: React.PropTypes.object
+  history: PropTypes.object
 };
 
 export default IndexPage;

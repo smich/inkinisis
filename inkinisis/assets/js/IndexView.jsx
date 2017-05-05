@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactDom from 'react-dom';
+import PropTypes from 'prop-types';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router'
@@ -76,7 +77,7 @@ class RouterComponent extends React.Component {
   }
 }
 RouterComponent.childContextTypes = {
-  history: React.PropTypes.object
+  history: PropTypes.object
 };
 
 /**

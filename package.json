@@ -65,6 +65,7 @@
     "morgan": "^1.7.0",
     "orm": "^3.2.3",
     "pg": "^6.1.2",
+    "prop-types": "^15.5.8",
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.2",

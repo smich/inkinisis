@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import PropTypes from 'prop-types';
 
 import {MAP_INPUT_PICKUP, MAP_INPUT_DESTINATION} from 'constants';
 
@@ -25,9 +26,9 @@ MapControl.defaultProps = {
 };
 
 MapControl.propTypes = {
-  onLocationChosen: React.propTypes.func
-  , placeholder: React.PropTypes.string
-  , value: React.PropTypes.string
+  onLocationChosen: PropTypes.func
+  , placeholder: PropTypes.string
+  , value: PropTypes.string
 };
 
 module.exports = MapControl;
