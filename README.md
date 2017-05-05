@@ -55,7 +55,7 @@ essentially the startup file for the server-side. This is the file that will be 
 
 ### <a name="start-server"></a> [start-server.js](https://github.com/smich/inkinisis/blob/master/start-server.js)
 
-As aforementioned, this is essentially the startup file for the server-side. It's used by our Node server to launch
+This is the startup file for the server-side. It's used by our Node server to launch
 the website.
 
 
@@ -129,7 +129,7 @@ page using a script tag
 
 In orer to prepare the development environment, issue the following command in bash:
 ```bash
-docker exec -it inkinisis_app_1
+docker exec -it inkinisis_app_1 npm run dev
 ```
 
 The above command will compile the server build, launch the WebpackDevServer and start the NodeJs server via PM2 by 

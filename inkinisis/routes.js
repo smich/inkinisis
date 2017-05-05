@@ -66,12 +66,18 @@ router.get('/', function(req, res, next) {
 if (process.env.NODE_ENV == 'development') {
   // Any requests to localhost:3000/build is proxied
   // to webpack-dev-server
-  router.get('/build/*', function (req, res) {
+  /*router.get('/build/!*', function (req, res) {
     console.log('getting resource from build ::: ' + req.path);
     proxy.web(req, res, {
       target: 'http://inkinisis.dev:3001'
     });
-  });
+  });*/
+  /*router.get('/sockjs-node', function (req, res) {
+    console.log('getting resource from build ::: ' + req.path);
+    proxy.web(req, res, {
+      target: 'http://inkinisis.dev:3001'
+    });
+  });*/
 }
 
 router.get('*', function (req, res, next) {

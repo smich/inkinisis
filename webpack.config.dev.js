@@ -32,7 +32,7 @@ var Config = function(APP_DIR, BUILD_DIR, ENTRY_FILE) {
       //.image{
       //  background-image: url(https://inkinisis.dev/some-hash.png)
       //}
-      , publicPath: 'http://0.0.0.0:3001/build/'
+      , publicPath: 'http://inkinisis.dev:3001/build/'
     }
     , resolve: {
       modules: [

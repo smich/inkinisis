@@ -21,7 +21,7 @@
   },
   "betterScripts": {
     "dev:build-client": {
-      "command": "webpack-dev-server --hot --inline --config \"./webpack/webpack.config.client.babel.js\" --host 0.0.0.0 --port 3001 --colors --content-base build/",
+      "command": "webpack-dev-server --hot --inline --config \"./webpack/webpack.config.client.babel.js\" --public inkinisis.dev --host app --port 3001 --colors --content-base build/",
       "env": {
         "NODE_ENV": "development"
       }

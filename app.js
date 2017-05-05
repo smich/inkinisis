@@ -53,15 +53,14 @@ const app = express();
 // require('./config/setupViews')(app);
 setupViews(app);
 
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '..', '..', 'img', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json({strict: false}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-console.log('ASSETS :::' + path.join(__dirname, 'public'));
-
-app.use(express.static(path.join(__dirname, 'public')));
+// __dirname: /public/build/bin
+app.use(express.static(__dirname + '/../../'));
 
 // Set global variables
 app.locals.env = app.get('env');
