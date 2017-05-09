@@ -6,7 +6,6 @@ const hbs = require('hbs');
 const hbsutils = require('hbs-utils')(hbs);
 const path = require('path');
 
-const ROOT_PATH = __dirname + '/..';
 const VIEWS_PATH = 'views';
 const VIEWS_PARTIAL_PATH = path.join(VIEWS_PATH, 'partials');
 
@@ -112,4 +111,3 @@ function setupViews(app) {
 }
 
 export default setupViews;
-// module.exports = setupViews;

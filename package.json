@@ -61,10 +61,7 @@
     "extract-text-webpack-plugin": "^2.0.0-rc.0",
     "font-awesome": "^4.7.0",
     "hbs": "^4.0.1",
-    "migrate-orm2": "^2.0.0",
     "morgan": "^1.7.0",
-    "orm": "^3.2.3",
-    "pg": "^6.1.2",
     "prop-types": "^15.5.8",
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.7",
@@ -90,8 +87,6 @@
     "css-loader": "^0.26.1",
     "file-loader": "^0.9.0",
     "hbs-utils": "0.0.4",
-    "http-proxy": "^1.16.2",
-    "jest": "^18.1.0",
     "node-sass": "^4.3.0",
     "npm-run-all": "^4.0.1",
     "postcss-loader": "^1.2.2",
@@ -101,7 +96,6 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack-dev-middleware": "^1.9.0",
-    "webpack-dev-server": "^2.2.0",
-    "webpack-hot-middleware": "^2.15.0"
+    "webpack-dev-server": "^2.2.0"
   }
 }

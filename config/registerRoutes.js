@@ -1,7 +1,6 @@
 'use strict';
 
 import path from 'path';
-// const ROOT_DIR = './..';
 
 // Define all micro-app names
 // @todo: Move this to settings
@@ -26,24 +25,7 @@ function registerRoutes(app) {
     console.log(routeUrlBase);
     console.log(appName, routePath);
 
-    /*require.ensure([], function(require) {
-      app.use(routeUrlBase, require(`${routePath}`));
-    });*/
-    // app.use(routeUrlBase, require(routePath));
-    /*app.use(routeUrlBase,
-      require.context(
-        appName, true, /routes\.js$/
-      ));*/
     // app.use(routeUrlBase, require(`${routePath}`));
-    // app.use(routeUrlBase, require("inkinisis/routes.js"));
-
-    /*const handler = System.import(`inkinisis/routes.js`);
-    handler.then(bundle => {
-      console.log('IN PROMISE RESOLVE ::: ');
-      console.log(bundle);
-      console.log('------------');
-      app.use(routeUrlBase, bundle);
-    }).catch(() => console.log("can't load the bundle"));*/
     app.use(routeUrlBase, require("inkinisis/routes.js"));
   });
 }

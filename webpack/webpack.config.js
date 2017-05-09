@@ -15,18 +15,14 @@ const rootFolder = path.resolve(__dirname, '..');
 var buildPath = path.resolve(rootFolder, 'public', 'build');
 
 
-
 var config = {
   context: rootFolder
   , entry: [
-    // 'webpack/hot/dev-server'
-    // , 'webpack-hot-middleware/client'
-    // [APP_DIR, ENTRY_FILE].join('/')
     './assets/main.jsx'
   ]
   , devtool: 'source-map'
   , output: {
-    // "path" is now "/public"; we're building our app into memory now rather than a build folder
+    // "path" is now "/public/build"; we're building our app into memory now rather than a build folder
     // "path" is the location where the bundle file is saved
     path: buildPath
     , filename: '[name].js'
@@ -36,7 +32,7 @@ var config = {
     //  background-image: url(./test.png)
     //}
     //.image{
-    //  background-image: url(https://inkinisis.dev/some-hash.png)
+    //  background-image: url(https://inkinisis.dev/build/some-hash.png)
     //}
     , publicPath: 'https://inkinisis.dev/build/'
   }
@@ -92,10 +88,6 @@ var config = {
     ]
   }
   , plugins: [
-    // Webpack 2.0 fixed this misspelling
-    // new webpack.optimize.OccurrenceOrderPlugin(),
-    /*new webpack.HotModuleReplacementPlugin()
-     , new webpack.NoEmitOnErrorsPlugin()*/
   ]
 };
 
