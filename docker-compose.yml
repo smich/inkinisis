@@ -1,0 +1,62 @@
+version: "2"
+
+services:
+  data:
+    image: mysql
+    command: "true"
+    volumes:
+      - ./docker_db_config/mysql:/var/lib/mysql
+  db:
+    image: mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+        - "13306:3306"
+    volumes_from:
+      - data
+    volumes:
+      - ./docker_db_config/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+  app:
+    image: peopleperhour/talentdesk_app
+    links:
+      - db
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${MYSQL_DATABASE}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - APP=${APP}
+      - NODE_ENV=${NODE_ENV}
+    depends_on:
+      - db
+    restart: always
+    volumes:
+      # Mount the app dir in the container as /src so our changes to the app code
+      # are also changed in the container
+      - .:/src
+    command: bash -c "pm2-docker ecosystem.config.js --only $$APP"
+  web:
+    image: peopleperhour/talentdesk_nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes_from:
+      - app
+    links:
+      - app
+    environment:
+      - APP_CONTAINER_NAME=${APP_CONTAINER_NAME}
+      - NGINX_DOMAIN=${NGINX_DOMAIN}
+      - NGINX_HTTP_PORT=${NGINX_HTTP_PORT}
+      - NGINX_HTTPS_PORT=${NGINX_HTTPS_PORT}
+      - NODE_PORT=${NODE_PORT}
+      - WEBPACK_DEV_SERVER_PORT=${WEBPACK_DEV_SERVER_PORT}
+    command: /bin/bash -c "envsubst '$$APP_CONTAINER_NAME $$NGINX_DOMAIN $$NGINX_HTTP_PORT $$NGINX_HTTPS_PORT $$NODE_PORT $$WEBPACK_DEV_SERVER_PORT' < /etc/nginx/conf.d/default-conf.template > /etc/nginx/conf.d/default.conf && envsubst '$$NGINX_DOMAIN' < /etc/nginx/nginx-conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"

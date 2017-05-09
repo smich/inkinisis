@@ -1,6 +1,9 @@
 # Static assets
 public/*
 
+# MySQL data dir
+docker_db_config/mysql/*
+
 #OS specific files
 .DS_Store
 
@@ -41,3 +44,6 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# Editor dirs
+.idea

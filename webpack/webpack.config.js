@@ -38,7 +38,7 @@ var config = {
     //.image{
     //  background-image: url(https://inkinisis.dev/some-hash.png)
     //}
-    , publicPath: 'http://inkinisis.dev/build/'
+    , publicPath: 'https://inkinisis.dev/build/'
   }
   , resolve: {
     modules: [

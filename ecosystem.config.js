@@ -1,22 +1,3 @@
-var watchIgnoreList = [
-  "ecosystem.config.js"
-  , "package.json"
-  , "webpack.config.js"
-  , "webpack.config.dev.js"
-  , "webpack.config.prod.js"
-  , "node_modules"
-  , "public"
-  , "LICENSE"
-  , "README.md"
-  , ".git"
-  , ".gitignore"
-  , "assets"
-  , "views"
-  , "*\/assets\/*"
-  , "*\/__tests__\/*"
-  , "*\/views\/*"
-];
-
 module.exports = {
   /**
    * Application configuration section
@@ -24,20 +5,15 @@ module.exports = {
    */
   apps : [
     // The development environment:
-    // - The HRM is activated to hot reload modified react components on the fly
-    //   when any js file inside assets/ is modified
-    // - pm2 reloads any active node processes when server related js code is
-    //   modified
+    // - When backend or frontend coee is modified, webpack or the webpack dev server recompiles the codebase and
+    //   updates the bundle at public/build/bin/www.entry.js
+    // - pm2 reloads any active node processes to catch up with the changes
     {
-      "name": "ikapp-dev"
-      // , "interpreter": "node_modules/babel-cli/bin/babel-node.js"
+      "name": "app-dev"
       , "script": "start-server.babel.js"
       , "watch": [
-      /*  "inkinisis\/!*"
-        ,*/ "public"
+        "public/build"
       ]
-      // , "watch": true
-      // , "ignore_watch" : watchIgnoreList
       , "watch_options": {
         "followSymlinks": false
       }
@@ -46,7 +22,7 @@ module.exports = {
       }
     }
     , {
-      "name": "ikapp"
+      "name": "app-prod"
       , "script": "./bin/www"
       , "exec_mode": "cluster"
       , "instances": 4

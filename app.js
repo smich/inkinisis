@@ -15,14 +15,6 @@
 //    "dev": "./node_modules/webpack/bin/webpack.js -d --watch",
 //    "start": "pm2 start ecosystem.config.js --only ikapp",
 
-/*require('babel-register', {
-  "presets": [
-    "es2015",
-    "react",
-    // "stage-2"
-  ]
-});*/
-
 
 import express from 'express';
 import path from 'path';
