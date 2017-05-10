@@ -10,9 +10,10 @@ var webpack = require('webpack');
 var path = require('path');
 
 // project folder
+// __dirname: /webpack
 const rootFolder = path.resolve(__dirname, '..');
 
-var buildPath = path.resolve(rootFolder, 'public', 'build');
+var buildPath = path.resolve(rootFolder, 'build');
 
 
 var config = {
@@ -43,7 +44,7 @@ var config = {
     ]
     , alias: {
         assets: path.resolve(__dirname, '..', 'assets')
-        , inkinisis: path.resolve(__dirname, '..', 'inkinisis')
+        , core: path.resolve(__dirname, '..', 'core')
         , views: path.resolve(__dirname, '..', 'views')
       }
     }

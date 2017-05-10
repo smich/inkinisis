@@ -15,17 +15,18 @@ const app = express();
 // Setup view engine and register the views dir of all micro-apps
 setupViews(app);
 
-app.use(favicon(path.join(__dirname, '..', '..', 'img', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '..', '..', 'public', 'img', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json({strict: false}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-// __dirname: /public/build/bin
-app.use(express.static(__dirname + '/../../'));
+// __dirname: /build/bin
+app.use(express.static(__dirname + '/../../public/'));
 
 // Set global variables
 app.locals.env = app.get('env');
+
 /*var settings = require('./config/settings.js');
 var dbConnString = `${settings.db.protocol}://${settings.db.user}:${settings.db.password}@${settings.db.host}/${settings.db.database}`;
 var orm = require('orm');

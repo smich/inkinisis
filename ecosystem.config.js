@@ -12,7 +12,7 @@ module.exports = {
       "name": "app-dev"
       , "script": "start-server.babel.js"
       , "watch": [
-        "public/build"
+        "build"
       ]
       , "watch_options": {
         "followSymlinks": false

@@ -1,6 +1,9 @@
 # Static assets
 public/*
 
+# Compiled code
+build/*
+
 # MySQL data dir
 docker_db_config/mysql/*
 

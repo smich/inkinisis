@@ -13,7 +13,7 @@ var start = new Date()
   , end
   , duration;
 var preamble = '[sleep #' + process.pid + '] ';
-var bundlePath = path.resolve(__dirname, 'public', 'build', 'bin', 'www.entry.js');
+var bundlePath = path.resolve(__dirname, 'build', 'bin', 'www.entry.js');
 
 
 console.log(preamble + 'waiting for "' + bundlePath + '" to be build by webpack...');
