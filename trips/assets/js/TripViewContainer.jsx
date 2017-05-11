@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { tripLikeAC } from './actions/index.js';
+import tripLikeAC from './actions/index.js';
 import NavLink from '../../../assets/js/base/NavLink.jsx';
 
 

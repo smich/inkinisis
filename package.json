@@ -1,8 +1,5 @@
 {
   "name": "ikapp",
-  "jest": {
-    "verbose": false
-  },
   "description": "Inkinisis NodeJs app",
   "author": "Sotiris Michalakos <s.michalakos@gmail.com>",
   "version": "0.0.1",
@@ -14,20 +11,12 @@
     "dev:delay-server": "node sleep.js",
     "dev:run": "pm2 start ecosystem.config.js --only ${APP}",
     "dev:prepare-server": "universal-webpack --settings ./webpack/universal-webpack-settings.js prepare",
-    "dev:build-server-once": "better-npm-run dev:build-server-once",
     "dev:build-server": "better-npm-run dev:build-server",
-    "dev:build-client": "better-npm-run dev:build-client",
-    "test": "jest"
+    "dev:build-client": "better-npm-run dev:build-client"
   },
   "betterScripts": {
     "dev:build-client": {
       "command": "webpack-dev-server --hot --inline --config \"./webpack/webpack.config.client.babel.js\" --public inkinisis.dev --host app --port 3001 --https --colors --content-base build/",
-      "env": {
-        "NODE_ENV": "development"
-      }
-    },
-    "dev:build-server-once": {
-      "command": "webpack --config \"./webpack/webpack.config.server.babel.js\" --colors --display-error-details",
       "env": {
         "NODE_ENV": "development"
       }
@@ -78,13 +67,20 @@
     "autoprefixer-loader": "^3.2.0",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",
-    "babel-jest": "^18.0.0",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "babel-register": "^6.18.0",
     "better-npm-run": "0.0.14",
     "css-loader": "^0.26.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-import-resolver-webpack": "^0.8.1",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
     "file-loader": "^0.9.0",
     "hbs-utils": "0.0.4",
     "node-sass": "^4.3.0",

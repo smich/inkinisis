@@ -1,9 +1,6 @@
-'use strict';
+const tripLikeAC = id => ({
+  type: 'TRIP_LIKE',
+  id,
+});
 
-
-export const tripLikeAC = (id) => {
-  return {
-    type: 'TRIP_LIKE'
-    , id: id
-  };
-};
+export default tripLikeAC;

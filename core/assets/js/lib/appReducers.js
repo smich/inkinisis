@@ -1,12 +1,10 @@
-'use strict';
-
 import { combineReducers } from 'redux';
 
-import trips from '../../../../trips/assets/js/reducers/trips.js';
+import trips from '../../../../trips/assets/js/reducers/trips';
 
 
 const appReducers = combineReducers({
-  trips
+  trips,
 });
 
 export default appReducers;

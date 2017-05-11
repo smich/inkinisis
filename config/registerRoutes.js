@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Register the routes path of all micro-apps
  *
@@ -7,7 +5,7 @@
  * /<micro-app-name>/routes
  */
 function registerRoutes(app) {
-  app.use('/', require("core/routes.js"));
+  app.use('/', require('core/routes.js'));
 }
 
 export default registerRoutes;

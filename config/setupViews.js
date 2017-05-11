@@ -1,51 +1,42 @@
-'use strict';
-
 // Core modules
-const fs = require('fs');
-const hbs = require('hbs');
-const hbsutils = require('hbs-utils')(hbs);
-const path = require('path');
+import fs from 'fs';
+import hbs from 'hbs';
+import hbsUtils from 'hbs-utils';
+import path from 'path';
 
+const hbsutils = hbsUtils(hbs);
 const VIEWS_PATH = 'views';
 const VIEWS_PARTIAL_PATH = path.join(VIEWS_PATH, 'partials');
 
 // Define all micro-app names
 // @todo: Move this to settings
 const APP_NAMES = [
-  "core"
-  , "settings"
-  , "trips"
+  'core',
+  'settings',
+  'trips',
 ];
 
 /**
  * Register handlebars helper functions
  */
 function registerHBSHelpers() {
-  hbs.registerHelper('json', function(context) {
-    return JSON.stringify(context);
+  hbs.registerHelper('json', (context) => {
+    JSON.stringify(context);
   });
-  hbs.registerHelper('if_eq', function(a, b, opts) {
-    return (a == b) ? opts.fn(this) : opts.inverse(this);
+  hbs.registerHelper('if_eq', function ifEq(a, b, opts) {
+    return (a === b) ? opts.fn(this) : opts.inverse(this);
   });
-  hbs.registerHelper('if_not', function(a, opts) {
+  hbs.registerHelper('if_not', function ifNot(a, opts) {
     return !a ? opts.fn(this) : opts.inverse(this);
   });
-  hbs.registerHelper('if_not_eq', function(a, b, opts) {
-    return (a != b) ? opts.fn(this) : opts.inverse(this);
+  hbs.registerHelper('if_not_eq', function ifNotEq(a, b, opts) {
+    return (a !== b) ? opts.fn(this) : opts.inverse(this);
   });
-  hbs.registerHelper('if_mod_eq_zero', function(a, b, opts) {
-    return (a % b == 0) ? opts.fn(this) : opts.inverse(this);
+  hbs.registerHelper('if_mod_eq_zero', function ifModEqZero(a, b, opts) {
+    return (a % b === 0) ? opts.fn(this) : opts.inverse(this);
   });
-  hbs.registerHelper('apply_div', function(a, b, opts) {
-    return parseInt(a) / parseInt(b);
-  });
-  hbs.registerHelper('faIcon', function(icons) {
-    var iconsHtml = '';
-    for (var i in icons) {
-      iconsHtml += '<i class="fa fa-'+icons[i]+'"></i>';
-    }
-
-    return new hbs.SafeString(iconsHtml);
+  hbs.registerHelper('apply_div', (a, b) => {
+    parseFloat(parseInt(a, 10) / parseInt(b, 10));
   });
 }
 
@@ -56,13 +47,13 @@ function registerHBSHelpers() {
  * /<micro-app-name>/views
  */
 function registerViews(app) {
-  let appNames = APP_NAMES;
-  let viewsPath = [
+  const appNames = APP_NAMES;
+  const viewsPath = [
     // The main views path
-    VIEWS_PATH
+    VIEWS_PATH,
   ];
 
-  appNames.forEach(appName => {
+  appNames.forEach((appName) => {
     viewsPath.push(path.join(appName, 'views'));
   });
 
@@ -77,15 +68,14 @@ function registerViews(app) {
  * /<micro-app-name>/views/partials
  */
 function registerViewsPartials() {
-
-  let appNames = APP_NAMES;
+  const appNames = APP_NAMES;
 
   // Register the main partials path
   hbsutils.registerPartials(VIEWS_PARTIAL_PATH);
   hbsutils.registerWatchedPartials(VIEWS_PARTIAL_PATH);
 
   // Register the partials path for each micro-app, if a partials dir exists
-  appNames.forEach(appName => {
+  appNames.forEach((appName) => {
     const partialsPath = path.join(appName, 'views', 'partials');
     if (fs.existsSync(partialsPath)) {
       hbsutils.registerPartials(partialsPath);
